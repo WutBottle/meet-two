@@ -1,28 +1,49 @@
+<style scoped lang="scss">
+  #app {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-image: url("~@assets/starBg.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+</style>
+
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+<!--    <audio id="audio" :src="mus" loop autoplay/>-->
+    <vue-particles
+            color="#ffe450"
+            :particleOpacity="0.7"
+            :particlesNumber="60"
+            shapeType="star"
+            :particleSize="6"
+            linesColor="#fff"
+            :linesWidth="2"
+            :lineLinked="true"
+            :lineOpacity="0.6"
+            :linesDistance="150"
+            :moveSpeed="3"
+            :hoverEffect="true"
+            hoverMode="grab"
+            :clickEffect="true"
+            clickMode="push"
+    />
+    <a-config-provider :locale="locale">
+      <router-view></router-view>
+    </a-config-provider>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
+  export default {
+    name: 'App',
+    data() {
+      return {
+        locale: zhCN,
+        mus: require("@assets/bgm.mp3"),
+      };
+    },
   }
-}
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
