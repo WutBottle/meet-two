@@ -5,7 +5,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     border-radius: 6px;
-    width: 75vw;
+    width: 80vw;
     height: 80vh;
     background-color: #fff;
     padding: 20px;
@@ -14,6 +14,7 @@
     background-size: 100% 100%;
     overflow-y: scroll;
     white-space: nowrap;
+    z-index: 500;
 
     &::-webkit-scrollbar {
       width: 0 !important;
@@ -21,16 +22,45 @@
     &::-webkit-scrollbar {
       width: 0 !important;height: 0;
     }
+
+    .sex-style {
+      width: 20px;
+      height: 20px;
+    }
+
+    .back-arrow {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 50px;
+      height: 50px;
+      background-image: url("~@assets/back.png");
+      background-size: 100% 80%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      z-index: 502;
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 </style>
 
 <template>
   <div class="FirstStage">
+    <div class="back-arrow" @click="backToStage"></div>
     <a-row :gutter="16">
       <a-col :span="12">
         <h2 style="font-weight: bold;text-align: center;color: #2f2953">您的信息</h2>
         <a-form :form="form" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol"
                 @submit="handleSubmit">
+          <a-form-item label="姓名">
+            张鹏
+            <img class="sex-style" src="@assets/male.png" alt="male">
+          </a-form-item>
+          <a-form-item label="学号">
+            M201973007
+          </a-form-item>
           <a-form-item label="学院">
             <a-input
                     v-decorator="[
@@ -97,6 +127,33 @@
               </a-select-option>
             </a-select>
           </a-form-item>
+          <a-form-item label="自我介绍">
+            <a-textarea
+                    v-decorator="[
+          'selfIntro',
+          { rules: [{ required: true, message: '请输入自我介绍!' }] },
+        ]"
+                    placeholder="请输入自我介绍"
+                    :auto-size="{ minRows: 2, maxRows: 5 }"
+            />
+          </a-form-item>
+          <a-form-item label="上传" extra="请上传您的生活照片">
+            <a-upload
+                    v-decorator="[
+          'upload',
+          {
+            rules: [{ required: true, message: '请上传您的生活照片!' }],
+            valuePropName: 'fileList',
+            getValueFromEvent: normFile,
+          },
+        ]"
+                    name="logo"
+                    action="/upload.do"
+                    list-type="picture"
+            >
+              <a-button> <a-icon type="upload" /> Click to upload </a-button>
+            </a-upload>
+          </a-form-item>
           <a-form-item :wrapper-col="formTailLayout.wrapperCol">
             <a-button type="primary" html-type="submit">
               生成档案
@@ -105,23 +162,27 @@
         </a-form>
       </a-col>
       <a-col :span="12">
-        123
+        <PersonalCard/>
       </a-col>
     </a-row>
   </div>
 </template>
 
 <script>
+  import PersonalCard from "@components/PersonalCard/PersonalCard";
   const formItemLayout = {
-    labelCol: {span: 4},
-    wrapperCol: {span: 18},
+    labelCol: {span: 5},
+    wrapperCol: {span: 17},
   };
   const formTailLayout = {
     labelCol: {span: 4},
-    wrapperCol: {span: 12, offset: 4},
+    wrapperCol: {span: 12, offset: 5},
   };
   export default {
     name: "FirstStage",
+    components: {
+      PersonalCard,
+    },
     data() {
       return {
         form: this.$form.createForm(this),
@@ -139,6 +200,16 @@
           }
         });
       },
+      normFile(e) {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+          return e;
+        }
+        return e && e.fileList;
+      },
+      backToStage() {
+        this.$router.push({path: '/stage'})
+      }
     }
   }
 </script>

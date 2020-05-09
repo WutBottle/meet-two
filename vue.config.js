@@ -34,7 +34,7 @@ module.exports = {
       .set("@assets", resolve("src/assets"))
       .set('@components', resolve('src/router/components'))
       .set("@store", resolve("src/store"))
-      .set("@static", resolve("src/static"));
+      .set("@common", resolve("src/common"));
     // 删除 moment 语言包
     config.plugin("ignore").use(
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/)

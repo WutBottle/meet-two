@@ -5,7 +5,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     border-radius: 12px;
-    width: 65vw;
+    width: 75vw;
     background-color: transparent;
     overflow: hidden;
 
@@ -67,24 +67,24 @@
     <a-row :gutter="16">
       <a-col class="gutter-row" :span="6">
         <div class="stage1 center stage-style" @click="jumpToStage1">
-          建立档案
+          我的档案
         </div>
       </a-col>
       <a-col class="gutter-row" :span="6">
         <div class="stage2 center stage-style">
-          <div class="mask"></div>
+          <div class="mask" @click="maskTips"></div>
           倾心互评
         </div>
       </a-col>
       <a-col class="gutter-row" :span="6">
         <div class="stage3 center stage-style">
-          <div class="mask"></div>
+          <div class="mask" @click="maskTips"></div>
           匹配结果
         </div>
       </a-col>
       <a-col class="gutter-row" :span="6">
         <div class="stage4 center stage-style">
-          <div class="mask"></div>
+          <div class="mask" @click="maskTips"></div>
           打卡任务
         </div>
       </a-col>
@@ -98,6 +98,9 @@
     methods: {
       jumpToStage1() {
         this.$router.push({path: '/stage1'})
+      },
+      maskTips() {
+        this.$message.warning('该阶段暂未开放');
       }
     }
   }

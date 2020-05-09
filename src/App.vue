@@ -3,15 +3,16 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-image: url("~@assets/starBg.jpg");
+    background-image: url("~@assets/starBg.png");
     background-size: 100% 100%;
+    background-position: center center;
     background-repeat: no-repeat;
   }
 </style>
 
 <template>
   <div id="app">
-<!--    <audio id="audio" :src="mus" loop autoplay/>-->
+    <audio id="audio" :src="mus" loop autoplay/>
     <vue-particles
             color="#ffe450"
             :particleOpacity="0.7"

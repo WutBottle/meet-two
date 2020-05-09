@@ -14,6 +14,13 @@
       .pane-style {
         padding: 20px 0;
       }
+
+      .title-wrapper {
+        text-align: center;
+        font-family: 'AJC';
+        font-size: 40px;
+        padding-top: 12px;
+      }
     }
   }
 </style>
@@ -21,6 +28,7 @@
 <template>
   <div class="LoginPage">
     <div class="operation-wrapper">
+      <div class="title-wrapper">沐光遇法 语你相识</div>
       <a-tabs v-model="activeKey">
         <a-tab-pane class="pane-style" key="1" tab="登录">
           <a-form :form="LoginForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 15 }" @submit="handleLogin">
@@ -44,7 +52,7 @@
                       type="password"
                       placeholder="请输入密码"
               >
-                <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+                <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)"/>
               </a-input>
             </a-form-item>
             <a-form-item :wrapper-col="{ span: 12, offset: 5 }">
@@ -98,7 +106,7 @@
                       type="password"
                       placeholder="请输入密码"
               >
-                <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+                <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)"/>
               </a-input>
             </a-form-item>
             <a-form-item label="性别">
