@@ -2,13 +2,16 @@
 * Author: zp
 * 登录处理
 */
-import api from '@api/apiSugar'
-import {ACCESS_TOKEN, ROLE} from '@store/mutation-types'
+import api from '@api/apiSugar';
+import {ACCESS_TOKEN, ROLE} from '@store/mutation-types';
 
 const state = {
   status: '',
   token: localStorage.getItem(ACCESS_TOKEN) || '',
   role: localStorage.getItem(ROLE) || '',
+  nickname: '',
+  schoolNumber: '',
+  gender: '',
 };
 
 const mutations = {
@@ -19,6 +22,9 @@ const mutations = {
     localStorage.setItem(ROLE, user.role);
     state.token = user.token;
     state.role = user.role;
+    state.nickname = user.nickname;
+    state.schoolNumber = user.schoolNumber;
+    state.gender = user.gender;
   },
   authError(state) {
     state.status = 'error';
@@ -53,6 +59,15 @@ const actions = {
       api.tokensController.logout(params).then(res => {
         localStorage.removeItem(ACCESS_TOKEN);
         commit('logOut');
+        resolve(res);
+      }).catch(error => {
+        reject(error);
+      });
+    })
+  },
+  registerUser({dispatch, commit}, params) {
+    return new Promise((resolve, reject) => {
+      api.tokensController.registerUser(params).then(res => {
         resolve(res);
       }).catch(error => {
         reject(error);

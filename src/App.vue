@@ -12,7 +12,7 @@
 
 <template>
   <div id="app">
-    <audio id="audio" :src="mus" loop autoplay/>
+    <audio :src="mus" loop autoplay ref="audio"/>
     <vue-particles
             color="#ffe450"
             :particleOpacity="0.7"
@@ -38,6 +38,7 @@
 
 <script>
   import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
+
   export default {
     name: 'App',
     data() {
@@ -46,5 +47,21 @@
         mus: require("@assets/bgm.mp3"),
       };
     },
+    mounted() {
+      this.showConfirm();
+    },
+    methods: {
+      showConfirm() {
+        this.$confirm({
+          title: '亲爱的小伙伴，想来点舒缓的音乐吗?',
+          onOk: () => {
+            this.$refs.audio.play()
+          },
+          onCancel: () => {
+            this.$refs.audio.pause();
+          },
+        });
+      },
+    }
   }
 </script>

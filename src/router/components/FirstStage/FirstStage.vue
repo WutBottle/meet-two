@@ -51,15 +51,16 @@
     <div class="back-arrow" @click="backToStage"></div>
     <a-row :gutter="16">
       <a-col :span="12">
-        <h2 style="font-weight: bold;text-align: center;color: #2f2953">您的信息</h2>
+        <h2 style="font-weight: bold;text-align: center;color: #2f2953;">您的信息</h2>
         <a-form :form="form" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol"
                 @submit="handleSubmit">
           <a-form-item label="姓名">
-            张鹏
-            <img class="sex-style" src="@assets/male.png" alt="male">
+            {{nickname}}
+            <img v-if="gender"  class="sex-style" src="@assets/male.png" alt="male">
+            <img v-else class="sex-style" src="@assets/female.png" alt="female">
           </a-form-item>
           <a-form-item label="学号">
-            M201973007
+            {{schoolNumber}}
           </a-form-item>
           <a-form-item label="学院">
             <a-input
@@ -81,7 +82,7 @@
             </span>
           </a-form-item>
           <a-form-item label="出生日期">
-            <a-date-picker v-decorator="['birthday',
+            <a-date-picker v-decorator="['bornDate',
                       { rules: [{ required: true, message: '请选择出生日期!' }]}]"
                            placeholder="请选择出生日期"
             />
@@ -89,7 +90,7 @@
           <a-form-item label="QQ/微信">
             <a-input
                     v-decorator="[
-          'contact',
+          'qq',
           { rules: [{ required: true, message: '请输入QQ或者微信!' }] },
         ]"
                     placeholder="请输入QQ或者微信"
@@ -98,7 +99,7 @@
           <a-form-item label="电话">
             <a-input
                     v-decorator="[
-          'phone',
+          'phoneNumber',
           { rules: [{ required: true, message: '请输入手机号!' }] },
         ]"
                     placeholder="请输入手机号"
@@ -107,7 +108,7 @@
           <a-form-item label="家乡">
             <a-input
                     v-decorator="[
-          'hometown',
+          'city',
           { rules: [{ required: true, message: '请输入家乡!' }] },
         ]"
                     placeholder="请输入家乡"
@@ -130,14 +131,14 @@
           <a-form-item label="自我介绍">
             <a-textarea
                     v-decorator="[
-          'selfIntro',
+          'introduction',
           { rules: [{ required: true, message: '请输入自我介绍!' }] },
         ]"
                     placeholder="请输入自我介绍"
                     :auto-size="{ minRows: 2, maxRows: 5 }"
             />
           </a-form-item>
-          <a-form-item label="上传" extra="请上传您的生活照片">
+          <a-form-item label="上传照片" extra="请上传您的生活照片">
             <a-upload
                     v-decorator="[
           'upload',
@@ -151,7 +152,7 @@
                     action="/upload.do"
                     list-type="picture"
             >
-              <a-button> <a-icon type="upload" /> Click to upload </a-button>
+              <a-button><a-icon type="upload" />点击此处上传</a-button>
             </a-upload>
           </a-form-item>
           <a-form-item :wrapper-col="formTailLayout.wrapperCol">
@@ -162,7 +163,7 @@
         </a-form>
       </a-col>
       <a-col :span="12">
-        <PersonalCard/>
+        <PersonalCard :cardData="personalData"/>
       </a-col>
     </a-row>
   </div>
@@ -170,9 +171,11 @@
 
 <script>
   import PersonalCard from "@components/PersonalCard/PersonalCard";
+  import {mapState} from 'vuex';
+  import moment from 'moment';
   const formItemLayout = {
     labelCol: {span: 5},
-    wrapperCol: {span: 17},
+    wrapperCol: {span: 16},
   };
   const formTailLayout = {
     labelCol: {span: 4},
@@ -188,14 +191,29 @@
         form: this.$form.createForm(this),
         formItemLayout,
         formTailLayout,
-        hobbyOption: ['文学', '音乐', '舞蹈', '游戏', '影视', '美食', '旅游']
+        hobbyOption: ['文学', '音乐', '舞蹈', '游戏', '影视', '美食', '旅游'],
+        personalData: {},
       }
+    },
+    computed: {
+      ...mapState({
+        nickname: state => state.tokensOperation.nickname,
+        schoolNumber: state => state.tokensOperation.schoolNumber,
+        gender: state => state.tokensOperation.gender,
+      })
     },
     methods: {
       handleSubmit(e) {
         e.preventDefault();
         this.form.validateFields((err, values) => {
           if (!err) {
+            this.personalData = values;
+            Object.assign(this.personalData, {
+              gender: this.gender,
+              nickname: this.nickname,
+              schoolNumber: this.schoolNumber
+            });
+            this.personalData.bornDate = moment(this.personalData.bornDate).format('YYYY-MM-DD');
             console.log('Received values of form: ', values);
           }
         });

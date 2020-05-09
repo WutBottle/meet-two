@@ -67,7 +67,7 @@
             <a-form-item label="姓名">
               <a-input
                       v-decorator="[
-          'name',
+          'nickname',
           { rules: [{ required: true, message: '请输入真实姓名!' }] },
         ]"
                       placeholder="请输入真实姓名"
@@ -78,7 +78,7 @@
             <a-form-item label="学号">
               <a-input
                       v-decorator="[
-          'number',
+          'schoolNumber',
           { rules: [{ required: true, message: '请输入真实学号!' }] },
         ]"
                       placeholder="请输入真实学号"
@@ -89,7 +89,7 @@
             <a-form-item label="账号">
               <a-input
                       v-decorator="[
-          'userName',
+          'username',
           { rules: [{ required: true, message: '请输入登录账号!' }] },
         ]"
                       placeholder="请输入登录账号"
@@ -117,10 +117,10 @@
         ]"
                       placeholder="请选择您的性别"
               >
-                <a-select-option value="male">
+                <a-select-option :value=1>
                   男
                 </a-select-option>
-                <a-select-option value="female">
+                <a-select-option :value=0>
                   女
                 </a-select-option>
               </a-select>
@@ -138,7 +138,9 @@
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
+  import {mapActions} from 'vuex';
+  import api from '@api/apiSugar';
+
   export default {
     name: "LoginPage",
     data() {
@@ -152,18 +154,22 @@
     methods: {
       ...mapActions({
         login: 'tokensOperation/login',
+        registerUser: 'userOperation/registerUser',
       }),
       handleLogin(e) {
         e.preventDefault();
         this.LoginForm.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values);
             this.login({
               username: values.userName,
               password: values.password,
             }).then(res => {
-              console.log(res);
-              this.$router.push({path: '/stage'})
+              if (res && res.data.meta.success) {
+                this.$message.success('登录成功');
+                this.$router.push({path: '/stage'})
+              } else {
+                this.$message.warning(res.data.meta.message);
+              }
             });
           }
         });
@@ -172,9 +178,24 @@
         e.preventDefault();
         this.RegisterForm.validateFields((err, values) => {
           if (!err) {
-            console.log('Received values of form: ', values);
-            this.activeKey = '1';
-            this.RegisterForm.resetFields();
+            const params = {
+              nickname: values.nickname,
+              schoolNumber: values.schoolNumber,
+              username: values.username,
+              password: values.password,
+              gender: values.gender
+            };
+            api.userController.registerUser(params).then(res => {
+              console.log(res)
+              if (res && res.data.meta.success) {
+                this.$message.success('注册成功，请登录！');
+                this.activeKey = '1';
+                this.RegisterForm.resetFields();
+              } else {
+                this.$message.warning(res.data.meta.message);
+              }
+            });
+
           }
         });
       },
