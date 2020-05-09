@@ -138,6 +138,7 @@
 </template>
 
 <script>
+  import {mapActions} from 'vuex'
   export default {
     name: "LoginPage",
     data() {
@@ -149,12 +150,21 @@
       }
     },
     methods: {
+      ...mapActions({
+        login: 'tokensOperation/login',
+      }),
       handleLogin(e) {
         e.preventDefault();
         this.LoginForm.validateFields((err, values) => {
           if (!err) {
             console.log('Received values of form: ', values);
-            this.$router.push({path: '/stage'})
+            this.login({
+              username: values.userName,
+              password: values.password,
+            }).then(res => {
+              console.log(res);
+              this.$router.push({path: '/stage'})
+            });
           }
         });
       },

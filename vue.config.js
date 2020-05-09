@@ -31,6 +31,7 @@ module.exports = {
     // 添加别名
     config.resolve.alias
       .set("@", resolve("src"))
+      .set("@api", resolve("src/api"))
       .set("@assets", resolve("src/assets"))
       .set('@components', resolve('src/router/components'))
       .set("@store", resolve("src/store"))
@@ -40,6 +41,12 @@ module.exports = {
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/)
     );
     return config;
+  },
+
+  configureWebpack : {
+    performance : {
+      hints : false
+    },
   },
 
 };

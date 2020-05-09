@@ -100,7 +100,7 @@
         this.$router.push({path: '/stage1'})
       },
       maskTips() {
-        this.$message.warning('该阶段暂未开放');
+        this.$message.warning('该阶段暂未开放，敬请期待');
       }
     }
   }

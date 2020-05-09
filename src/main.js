@@ -8,6 +8,8 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css';
 Vue.use(Antd);
 
+import store from './store'
+
 Vue.config.productionTip = false;
 
 import '@common/font/font.css'
@@ -15,6 +17,7 @@ import VueParticles from 'vue-particles'
 Vue.use(VueParticles);
 
 new Vue({
+  store,
   router: router,
   render: h => h(App),
 }).$mount('#app');
