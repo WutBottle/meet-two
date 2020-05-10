@@ -3,7 +3,7 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-image: url("~@assets/starBg.png");
+    background-image: url("~@assets/starBg.jpg");
     background-size: 100% 100%;
     background-position: center center;
     background-repeat: no-repeat;

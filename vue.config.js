@@ -3,6 +3,15 @@ const resolve = dir => path.join(__dirname, dir);
 const webpack = require("webpack");
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 
+const cdn = {
+  js: [
+    "//cdn.jsdelivr.net/npm/vue@2.6.11",
+    "//cdn.bootcdn.net/ajax/libs/vue-router/3.1.3/vue-router.min.js",
+    "//cdn.bootcdn.net/ajax/libs/vuex/3.2.0/vuex.min.js",
+    "//cdn.bootcdn.net/ajax/libs/axios/0.19.1/axios.min.js",
+  ]
+}
+
 module.exports = {
 
   publicPath: IS_PROD ? process.env.VUE_APP_PUBLIC_PATH : "/", // 默认'/'，部署应用包时的基本 URL
@@ -15,15 +24,32 @@ module.exports = {
   pwa: {},
 
   devServer: {
+    // overlay: {
+    //   warnings: true,
+    //   errors: true
+    // },
+    open: IS_PROD,
+    host: '0.0.0.0',
+    port: 8000,
+    https: false,
+    hotOnly: false,
     proxy: {
-      "/api": {
-        target: "https://www.easy-mock.com/mock/5bc75b55dc36971c160cad1b/sheets", // 目标代理接口地址
-        secure: false,
-        changeOrigin: true, // 开启代理，在本地创建一个虚拟服务端
-        pathRewrite: {
-          "^/api": "/"
-        }
+      '/api': {
+        target: process.env.VUE_APP_BASE_API || 'http://127.0.0.1:8080',
+        changeOrigin: true
       }
+    }
+  },
+
+  configureWebpack: {
+    externals : {
+      vue: "Vue",
+      "vue-router": "VueRouter",
+      vuex: "Vuex",
+      axios: "axios",
+    },
+    performance: {
+      hints: false
     }
   },
 
@@ -40,26 +66,15 @@ module.exports = {
     config.plugin("ignore").use(
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/)
     );
-    const cdn = {
-      js: [
-        "//cdn.bootcdn.net/ajax/libs/vue/2.6.10/vue.common.dev.js",
-        "//cdn.bootcdn.net/ajax/libs/ant-design-vue/1.5.3/antd-with-locales.min.js",
-        "//cdn.bootcdn.net/ajax/libs/vue-router/3.1.3/vue-router.common.js",
-        "//cdn.bootcdn.net/ajax/libs/vuex/3.2.0/vuex.esm.browser.js",
-        "//cdn.bootcdn.net/ajax/libs/axios/0.19.1/axios.min.js",
-      ]
-    };
+    // 对vue-cli内部的 webpack 配置进行更细粒度的修改
+    config.plugin("html").tap(args => {
+      args[0].title = '沐光遇法 语你相识';
+      if (IS_PROD) {
+        args[0].cdn = cdn;
+      }
+      return args;
+    });
     return config;
-  },
-
-  configureWebpack: config => {
-    config.externals = {
-      vue: "Vue",
-      "ant-design-vue": "Antd",
-      "vue-router": "VueRouter",
-      vuex: "Vuex",
-      axios: "axios",
-    };
   },
 
 };

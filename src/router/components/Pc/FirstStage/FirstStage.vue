@@ -229,6 +229,7 @@
             this.personalData.hobby = res.data.data.hobby ? res.data.data.hobby.split(',') : [];
             this.personalData.bornDate = res.data.data.bornDate && moment(res.data.data.bornDate);
             if (this.personalData.userImg) {
+              this.fileName = this.personalData.userImg;
               this.imgFileList = [];
               this.imgFileList.push({
                 uid: '-1',
