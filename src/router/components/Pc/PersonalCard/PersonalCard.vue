@@ -22,8 +22,7 @@
       padding: 20px;
 
       .font-style {
-        font-family: 'AJC';
-        font-size: 20px;
+        font-size: 18px;
         white-space: normal;
       }
 

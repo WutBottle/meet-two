@@ -40,13 +40,26 @@ module.exports = {
     config.plugin("ignore").use(
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/)
     );
+    const cdn = {
+      js: [
+        "//cdn.bootcdn.net/ajax/libs/vue/2.6.10/vue.common.dev.js",
+        "//cdn.bootcdn.net/ajax/libs/ant-design-vue/1.5.3/antd-with-locales.min.js",
+        "//cdn.bootcdn.net/ajax/libs/vue-router/3.1.3/vue-router.common.js",
+        "//cdn.bootcdn.net/ajax/libs/vuex/3.2.0/vuex.esm.browser.js",
+        "//cdn.bootcdn.net/ajax/libs/axios/0.19.1/axios.min.js",
+      ]
+    };
     return config;
   },
 
-  configureWebpack : {
-    performance : {
-      hints : false
-    },
+  configureWebpack: config => {
+    config.externals = {
+      vue: "Vue",
+      "ant-design-vue": "Antd",
+      "vue-router": "VueRouter",
+      vuex: "Vuex",
+      axios: "axios",
+    };
   },
 
 };
