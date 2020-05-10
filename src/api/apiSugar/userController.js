@@ -12,6 +12,14 @@ const userController = {
   registerUser(params) {
     return axios.post(`${baseUrl.userController}/register`, params);
   },
+  // 修改用户
+  verifyUser(params) {
+    return axios.post(`${baseUrl.userController}/verifyUser`, params);
+  },
+  // 获取用户信息
+  getUserData() {
+    return axios.get(`${baseUrl.userController}/userProfile`);
+  },
 };
 
 export default userController;

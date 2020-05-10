@@ -24,11 +24,21 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   export default {
     name: "Page404",
+    computed: {
+      ...mapState({
+        environment: state => state.tokensOperation.environment,
+      })
+    },
     methods: {
       backToLogin() {
-        this.$router.push({path: '/login'})
+        if (this.environment) {
+          this.$router.push({path: '/mobile/login'})
+        } else {
+          this.$router.push({path: '/pc/login'})
+        }
       }
     }
   }

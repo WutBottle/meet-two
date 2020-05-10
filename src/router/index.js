@@ -10,32 +10,59 @@ Router.prototype.push = function push(location, onResolve, onReject) {
   return originalPush.call(this, location).catch(err => err)
 };
 
-const LoginPage = r => require.ensure([], () => r(require('@components/LoginPage/LoginPage')));
-const StagePage = r => require.ensure([], () => r(require('@components/StagePage/StagePage')));
-const FirstStage = r => require.ensure([], () => r(require('@components/FirstStage/FirstStage')));
+const Pc = r => require.ensure([], () => r(require('@components/Pc/Pc')));
+const LoginPage = r => require.ensure([], () => r(require('@components/Pc/LoginPage/LoginPage')));
+const StagePage = r => require.ensure([], () => r(require('@components/Pc/StagePage/StagePage')));
+const FirstStage = r => require.ensure([], () => r(require('@components/Pc/FirstStage/FirstStage')));
+
+const Mobile = r => require.ensure([], () => r(require('@components/Mobile/Mobile')));
+const MLoginPage = r => require.ensure([], () => r(require('@components/Mobile/LoginPage/LoginPage')));
+const MStagePage = r => require.ensure([], () => r(require('@components/Mobile/StagePage/StagePage')))
+const MFirstPage = r => require.ensure([], () => r(require('@components/Mobile/FirstPage/FirstPage')))
+
 const Page404 = r => require.ensure([], () => r(require('@components/Page404/Page404')));
+
 /* 一级二级路由配置示例 */
 export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
-      redirect: '/login',
+      path: '/pc',
+      component: Pc,
+      children: [{
+        path: 'login',
+        name: 'LoginPage',
+        component: LoginPage,
+      }, {
+        path: 'stage',
+        name: 'StagePage',
+        component: StagePage,
+      }, {
+        path: 'stage1',
+        name: 'FirstStage',
+        component: FirstStage,
+      }],
     },
     {
-      path: '/login',
-      name: 'LoginPage',
-      component: LoginPage,
+      path: '/mobile',
+      component: Mobile,
+      children: [{
+        path: 'login',
+        name: 'MLoginPage',
+        component: MLoginPage,
+      }, {
+        path: 'stage',
+        name: 'MStagePage',
+        component: MStagePage,
+      }, {
+        path: 'stage1',
+        name: 'MFirstPage',
+        component: MFirstPage,
+      }],
     },
     {
-      path: '/stage',
-      name: 'StagePage',
-      component: StagePage,
-    },
-    {
-      path: '/stage1',
-      name: 'FirstStage',
-      component: FirstStage,
+      path: '/mobile',
+      component: Mobile,
     },
     {
       path: '/404',

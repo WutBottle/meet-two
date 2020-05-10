@@ -8,16 +8,22 @@ import Vue from 'vue'
 import axios from 'axios';
 import router from '../router';
 
-import {ACCESS_TOKEN} from '@/store/mutation-types'
+import {ACCESS_TOKEN, ENVIRONMENT} from '@/store/mutation-types'
 
 /**
  * 跳转登录页
  * 携带当前页面路由，以期在登录页面完成登录后返回当前页面
  */
 const toLogin = () => {
-  router.push({
-    path: '/login',
-  });
+  if (localStorage.getItem(ENVIRONMENT) === 'true') {
+    router.push({
+      path: '/mobile/login',
+    });
+  } else {
+    router.push({
+      path: '/pc/login',
+    });
+  }
 };
 
 /**

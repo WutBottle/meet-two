@@ -1,35 +1,11 @@
 <style scoped lang="scss">
   #app {
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background-image: url("~@assets/starBg.png");
-    background-size: 100% 100%;
-    background-position: center center;
-    background-repeat: no-repeat;
+
   }
 </style>
 
 <template>
   <div id="app">
-    <audio :src="mus" loop autoplay ref="audio"/>
-    <vue-particles
-            color="#ffe450"
-            :particleOpacity="0.7"
-            :particlesNumber="60"
-            shapeType="star"
-            :particleSize="6"
-            linesColor="#fff"
-            :linesWidth="2"
-            :lineLinked="true"
-            :lineOpacity="0.6"
-            :linesDistance="150"
-            :moveSpeed="3"
-            :hoverEffect="true"
-            hoverMode="grab"
-            :clickEffect="true"
-            clickMode="push"
-    />
     <a-config-provider :locale="locale">
       <router-view></router-view>
     </a-config-provider>
@@ -37,31 +13,37 @@
 </template>
 
 <script>
+  import {mapMutations} from 'vuex'
   import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
+  import {ACCESS_TOKEN} from '@store/mutation-types';
 
   export default {
     name: 'App',
     data() {
       return {
         locale: zhCN,
-        mus: require("@assets/bgm.mp3"),
       };
     },
     mounted() {
-      this.showConfirm();
+      if (!localStorage.getItem(ACCESS_TOKEN)){
+        if (this.isMobile()) {
+          this.$router.push("/mobile/login");
+        } else {
+          this.$router.push("/pc/login");
+        }
+      }
     },
     methods: {
-      showConfirm() {
-        this.$confirm({
-          title: '亲爱的小伙伴，想来点舒缓的音乐吗?',
-          onOk: () => {
-            this.$refs.audio.play()
-          },
-          onCancel: () => {
-            this.$refs.audio.pause();
-          },
-        });
-      },
+      ...mapMutations({
+        environmentSet: 'tokensOperation/environmentSet',
+      }),
+      isMobile() {
+        let flag = Boolean(navigator.userAgent.match( // match方法可在字符串内检索指定的值，
+          /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+        ));
+        this.environmentSet(flag);
+        return flag;
+      }
     }
   }
 </script>
