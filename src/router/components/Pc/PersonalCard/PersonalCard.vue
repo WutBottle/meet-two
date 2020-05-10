@@ -6,7 +6,7 @@
 
     .img-wrapper {
       width: 100%;
-      height: 35vh;
+      height: 40vh;
       display: flex;
 
       img {
@@ -37,70 +37,72 @@
 
 <template>
   <div class="PersonalCard">
-    <a-card title="个人卡片">
-      <div v-if="Object.keys(cardData).length">
-        <a-card-grid class="img-wrapper">
-          <img src="https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3744215463,383557679&fm=26&gp=0.jpg"
-               alt="">
-        </a-card-grid>
-        <a-card-grid class="text-wrapper">
-          <a-row>
-            <a-col :span="12">
+    <a-spin :spinning="cardSpinning" tip="生成中..." size="large">
+      <a-card title="个人卡片">
+        <div v-if="Object.keys(cardData).length">
+          <a-card-grid class="img-wrapper">
+            <img :src="cardData.userImg"
+                 alt="">
+          </a-card-grid>
+          <a-card-grid class="text-wrapper">
+            <a-row>
+              <a-col :span="12">
             <span class="font-style">
               姓名：{{cardData.nickname}}
               <img v-if="cardData.gender" class="sex-style" src="@assets/male.png" alt="male">
               <img v-else class="sex-style" src="@assets/female.png" alt="female">
             </span>
-            </a-col>
-            <a-col :span="12">
-              <span class="font-style">学号：{{cardData.schoolNumber}}</span>
-            </a-col>
-          </a-row>
-          <a-row>
-            <a-col :span="12">
-              <span class="font-style">学院：{{cardData.college}}</span>
-            </a-col>
-            <a-col :span="12">
-              <span class="font-style">身高：{{cardData.height}}cm</span>
-            </a-col>
-          </a-row>
-          <a-row>
-            <a-col :span="12">
-              <span class="font-style">出生日期：{{cardData.bornDate && moment(cardData.bornDate).format("YYYY-MM-DD")}}</span>
-            </a-col>
-            <a-col :span="12">
-              <span class="font-style">QQ/微信：{{cardData.qq}}</span>
-            </a-col>
-          </a-row>
-          <a-row>
-            <a-col :span="12">
-              <span class="font-style">电话：{{cardData.phoneNumber}}</span>
-            </a-col>
-            <a-col :span="12">
-              <span class="font-style">家乡：{{cardData.city}}</span>
-            </a-col>
-          </a-row>
-          <a-row>
-            <a-col :span="24">
-              <span class="font-style">兴趣爱好：</span>
-              <span>
+              </a-col>
+              <a-col :span="12">
+                <span class="font-style">学号：{{cardData.schoolNumber}}</span>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="12">
+                <span class="font-style">学院：{{cardData.college}}</span>
+              </a-col>
+              <a-col :span="12">
+                <span class="font-style">身高：{{cardData.height}}cm</span>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="12">
+                <span class="font-style">出生日期：{{cardData.bornDate && moment(cardData.bornDate).format("YYYY-MM-DD")}}</span>
+              </a-col>
+              <a-col :span="12">
+                <span class="font-style">QQ/微信：{{cardData.qq}}</span>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="12">
+                <span class="font-style">电话：{{cardData.phoneNumber}}</span>
+              </a-col>
+              <a-col :span="12">
+                <span class="font-style">家乡：{{cardData.city}}</span>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="24">
+                <span class="font-style">兴趣爱好：</span>
+                <span>
               <a-tag v-for="(item, index) in cardData.hobby" :color="tagColors[index%6]" :key="index">
                 {{item}}
               </a-tag>
             </span>
-            </a-col>
-          </a-row>
-          <a-row>
-            <a-col :span="24">
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col :span="24">
             <span class="font-style">
               个人介绍：{{cardData.introduction}}
             </span>
-            </a-col>
-          </a-row>
-        </a-card-grid>
-      </div>
-      <a-empty v-else/>
-    </a-card>
+              </a-col>
+            </a-row>
+          </a-card-grid>
+        </div>
+        <a-empty v-else/>
+      </a-card>
+    </a-spin>
   </div>
 </template>
 
@@ -110,6 +112,7 @@
     name: "PersonalCard",
     props: {
       cardData: Object,
+      cardSpinning: Boolean,
     },
     data() {
       return {

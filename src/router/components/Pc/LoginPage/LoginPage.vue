@@ -79,7 +79,8 @@
               <a-input
                       v-decorator="[
           'schoolNumber',
-          { rules: [{ required: true, message: '请输入真实学号!' }] },
+          { rules: [{ required: true, message: '请输入学号!' },
+          { pattern: /^[a-zA-Z]\d{9}$/, message: '格式错误，例如：M201973007' }] },
         ]"
                       placeholder="请输入真实学号"
               >

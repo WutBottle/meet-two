@@ -20,6 +20,9 @@ const userController = {
   getUserData() {
     return axios.get(`${baseUrl.userController}/userProfile`);
   },
+  uploadAvatar(params) {
+  return axios.post(`${baseUrl.userController}/upload`, params);
+},
 };
 
 export default userController;

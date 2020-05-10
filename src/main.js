@@ -16,6 +16,8 @@ import store from './store'
 
 Vue.config.productionTip = false;
 
+
+
 import '@common/font/font.css'
 import VueParticles from 'vue-particles'
 Vue.use(VueParticles);

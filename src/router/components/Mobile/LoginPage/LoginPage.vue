@@ -98,6 +98,7 @@
           ],
           schoolNumber: [
             { required: true, message: '请输入学号', trigger: 'blur' },
+            { pattern: /^[a-zA-Z]\d{9}$/, message: '格式错误，例如：M201973007' }
           ],
           gender: [
             { required: true, message: '请选择性别', trigger: 'change' },

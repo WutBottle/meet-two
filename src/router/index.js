@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {ENVIRONMENT} from '@store/mutation-types';
 
 Vue.use(Router);
 
@@ -26,6 +27,10 @@ const Page404 = r => require.ensure([], () => r(require('@components/Page404/Pag
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/',
+      redirect: localStorage.getItem(ENVIRONMENT) === 'true' ? '/mobile/login' : 'pc/login'
+    },
     {
       path: '/pc',
       component: Pc,

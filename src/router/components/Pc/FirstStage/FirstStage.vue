@@ -53,7 +53,7 @@
   <div class="FirstStage">
     <div class="back-arrow" @click="backToStage"></div>
     <a-row :gutter="16">
-      <a-col :span="12">
+      <a-col :span="10">
         <h2 style="font-weight: bold;text-align: center;color: #2f2953;">您的信息</h2>
         <a-form :form="form" :label-col="formItemLayout.labelCol" :wrapper-col="formItemLayout.wrapperCol"
                 @submit="handleSubmit">
@@ -105,12 +105,13 @@
                     placeholder="请输入QQ或者微信"
             />
           </a-form-item>
-          <a-form-item label="电话">
+          <a-form-item label="手机">
             <a-input
                     v-decorator="[
           'phoneNumber',
-          { initialValue: personalData.phoneNumber,
-          rules: [{ required: true, message: '请输入手机号!' }] },
+          {initialValue: personalData.phoneNumber,
+          rules: [{ required: true, message: '请输入手机号!' },
+          {pattern: /^1[3456789]\d{9}$/, message: '手机号格式错误!'}]},
         ]"
                     placeholder="请输入手机号"
             />
@@ -151,12 +152,13 @@
                     :auto-size="{ minRows: 2, maxRows: 5 }"
             />
           </a-form-item>
-          <a-form-item label="上传照片" extra="请上传您的生活照片">
+          <a-form-item label="上传照片">
             <a-upload
                     v-decorator="[
           'uploadFile',
           {
             valuePropName: 'uploadFile',
+            rules: [{ required: true, message: '请上传您的生活照片!' }]
           },
         ]"
                     :fileList="imgFileList"
@@ -166,19 +168,19 @@
             >
               <a-button>
                 <a-icon type="upload"/>
-                点击此处上传
+                请上传本人照骗一张
               </a-button>
             </a-upload>
           </a-form-item>
           <a-form-item :wrapper-col="formTailLayout.wrapperCol">
-            <a-button type="primary" html-type="submit">
+            <a-button type="primary" html-type="submit" :loading="uploadSpinning">
               生成档案
             </a-button>
           </a-form-item>
         </a-form>
       </a-col>
-      <a-col :span="12">
-        <PersonalCard :cardData="personalData"/>
+      <a-col :span="13">
+        <PersonalCard :cardData="personalData" :cardSpinning="cardSpinning"/>
       </a-col>
     </a-row>
   </div>
@@ -188,14 +190,15 @@
   import PersonalCard from "@components/Pc/PersonalCard/PersonalCard";
   import moment from 'moment';
   import api from '@api/apiSugar';
+  import baseUrl from '@api/baseUrl'
 
   const formItemLayout = {
-    labelCol: {span: 5},
-    wrapperCol: {span: 16},
+    labelCol: {span: 8},
+    wrapperCol: {span: 10},
   };
   const formTailLayout = {
     labelCol: {span: 4},
-    wrapperCol: {span: 12, offset: 5},
+    wrapperCol: {span: 12, offset: 8},
   };
   export default {
     name: "FirstStage",
@@ -207,11 +210,12 @@
         form: this.$form.createForm(this),
         formItemLayout,
         formTailLayout,
-        hobbyOption: ['文学', '音乐', '舞蹈', '游戏', '影视', '美食', '旅游'],
+        hobbyOption: ['书法', '写作', '乐器', '舞蹈', '游戏', '影视', '美食', '旅游', '社交', '歌唱', '阅读', '下棋'],
         personalData: {},
         imgFileList: [],
         uploadSpinning: false,
         fileName: '',
+        cardSpinning: false,
       }
     },
     mounted() {
@@ -223,7 +227,20 @@
           if (res) {
             this.personalData = res.data.data;
             this.personalData.hobby = res.data.data.hobby ? res.data.data.hobby.split(',') : [];
-            this.personalData.bornDate = res.data.data.bornDate && moment(res.data.data.bornDate)
+            this.personalData.bornDate = res.data.data.bornDate && moment(res.data.data.bornDate);
+            if (this.personalData.userImg) {
+              this.imgFileList = [];
+              this.imgFileList.push({
+                uid: '-1',
+                name: 'image',
+                status: 'done',
+                url: this.personalData.userImg,
+              });
+              this.form.setFieldsValue({
+                uploadFile: this.imgFileList,
+              })
+            }
+            this.cardSpinning = false;
           }
         })
       },
@@ -231,17 +248,20 @@
         e.preventDefault();
         this.form.validateFields((err, values) => {
           if (!err) {
+            this.cardSpinning = true;
             this.personalData = values;
             Object.assign(this.personalData, {
               gender: this.gender,
               nickname: this.nickname,
-              schoolNumber: this.schoolNumber
+              schoolNumber: this.schoolNumber,
+              userImg: this.fileName,
             });
             this.personalData.hobby = this.personalData.hobby.join(',');
             this.personalData.bornDate = moment(this.personalData.bornDate).format('YYYY-MM-DD');
             api.userController.verifyUser(this.personalData).then(res => {
               if (res && res.data.meta.success) {
                 this.$message.success('档案生成成功');
+                this.getPersonalData();
               } else {
                 this.$message.error(res.data.meta.message);
               }
@@ -257,11 +277,13 @@
         const newFileList = this.imgFileList.slice();
         newFileList.splice(index, 1);
         this.imgFileList = newFileList;
+        this.form.setFieldsValue({
+          uploadFile: null,
+        })
       },
       beforeUpload(file) {
         this.uploadSpinning = true;
         this.handleRemove(file);
-        console.log(file.type)
         if (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') {
           const formData = new FormData();
           this.imgFileList = [...this.imgFileList, file];
@@ -269,14 +291,14 @@
             formData.append('multipartFiles', file);
           });
           // 手动上传
-          // this.uploadContract(formData).then((data) => {
-          //   this.fileName = data.data.data;
-          //   this.$message.success('文件已上传');
-          //   this.uploadSpinning = false;
-          // }).catch((error) => {
-          //   this.$message.error('上传失败');
-          //   this.uploadSpinning = false;
-          // });
+          api.userController.uploadAvatar(formData).then((data) => {
+            this.fileName = baseUrl.serverBaseController + data.data.data;
+            this.$message.success('文件已上传');
+            this.uploadSpinning = false;
+          }).catch((error) => {
+            this.$message.error('上传失败');
+            this.uploadSpinning = false;
+          });
         } else {
           this.$message.error('只能上传.jpg.jpeg.png类型文件');
           this.handleRemove(file);
