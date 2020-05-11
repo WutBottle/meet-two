@@ -22,7 +22,8 @@
       padding: 20px;
 
       .font-style {
-        font-size: 18px;
+        font-size: 16px;
+        line-height: 28px;
         white-space: normal;
       }
 
@@ -44,13 +45,13 @@
                  alt="">
           </a-card-grid>
           <a-card-grid class="text-wrapper">
-            <a-row>
+            <a-row >
               <a-col :span="12">
-            <span class="font-style">
-              姓名：{{cardData.nickname}}
-              <img v-if="cardData.gender" class="sex-style" src="@assets/male.png" alt="male">
-              <img v-else class="sex-style" src="@assets/female.png" alt="female">
-            </span>
+                <span class="font-style">
+                  姓名：{{cardData.nickname}}
+                  <img v-if="cardData.gender" class="sex-style" src="@assets/male.png" alt="male">
+                  <img v-else class="sex-style" src="@assets/female.png" alt="female">
+                </span>
               </a-col>
               <a-col :span="12">
                 <span class="font-style">学号：{{cardData.schoolNumber}}</span>
@@ -107,6 +108,7 @@
 
 <script>
   import moment from 'moment'
+
   export default {
     name: "PersonalCard",
     props: {
