@@ -65,6 +65,33 @@
         </Form>
       </TabPane>
     </Tabs>
+    <van-tabs v-model="paneKey">
+      <van-tab title="登录" name="login">
+        <van-form @submit="onSubmit">
+          <van-field
+                  v-model="login.username"
+                  name="username"
+                  label="账户"
+                  placeholder="请输入账户"
+                  :rules="[{ required: true, message: '请输入账户!' }]"
+          />
+          <van-field
+                  v-model="login.password"
+                  type="password"
+                  name="password"
+                  label="密码"
+                  placeholder="请输入密码"
+                  :rules="[{ required: true, message: '请输入密码!' }]"
+          />
+          <div style="margin: 16px;">
+            <van-button round block type="info" native-type="submit">
+              登录
+            </van-button>
+          </div>
+        </van-form>
+      </van-tab>
+      <van-tab title="注册" name="register">注册</van-tab>
+    </van-tabs>
   </div>
 </template>
 
@@ -142,7 +169,20 @@
             this.$Message.error('请检查信息!');
           }
         })
-      }
+      },
+      onSubmit(values) {
+        this.loginUser({
+          username: values.username,
+          password: values.password,
+        }).then(res => {
+          if (res && res.data.meta.success) {
+            this.$notify({ type: 'success', message: '登录成功' });
+            this.$router.push({path: '/mobile/stage'})
+          } else {
+            this.$notify({ type: 'warning', message: res.data.meta.message });
+          }
+        });
+      },
     }
   }
 </script>

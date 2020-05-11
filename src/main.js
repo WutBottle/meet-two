@@ -12,6 +12,11 @@ import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 Vue.use(ViewUI);
 
+import Vant from 'vant';
+import 'vant/lib/index.css';
+
+Vue.use(Vant);
+
 import store from './store'
 
 Vue.config.productionTip = false;
