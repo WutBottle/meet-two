@@ -1,6 +1,5 @@
 <style scoped lang="scss">
   .StagePage {
-    padding: 20px 20px 0 20px;
     overflow: hidden;
     .list-style {
       height: 150px;
@@ -17,6 +16,12 @@
 
 <template>
   <div class="StagePage">
+    <van-nav-bar
+            title="活动阶段"
+            left-text="返回"
+            left-arrow
+            @click-left="onClickLeft"
+    />
     <div class="list-style" @click="jumpToStage1" style="background-color: #09c2ff">
       我的档案
     </div>
@@ -40,7 +45,10 @@
         this.$router.push({path: '/mobile/stage1'})
       },
       showTips() {
-        this.$Message.warning('该阶段暂未开放，敬请期待')
+        this.$notify({type: 'warning', message: '该阶段暂未开放，敬请期待'});
+      },
+      onClickLeft() {
+        this.$router.push({path: '/mobile/login'})
       }
     }
   }

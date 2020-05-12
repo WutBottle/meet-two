@@ -75,7 +75,7 @@
             </a-row>
             <a-row>
               <a-col :span="12">
-                <span class="font-style">电话：{{cardData.phoneNumber}}</span>
+                <span class="font-style">手机：{{cardData.phoneNumber}}</span>
               </a-col>
               <a-col :span="12">
                 <span class="font-style">家乡：{{cardData.city}}</span>

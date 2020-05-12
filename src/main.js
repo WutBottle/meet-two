@@ -8,10 +8,6 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css';
 Vue.use(Antd);
 
-import ViewUI from 'view-design';
-import 'view-design/dist/styles/iview.css';
-Vue.use(ViewUI);
-
 import Vant from 'vant';
 import 'vant/lib/index.css';
 

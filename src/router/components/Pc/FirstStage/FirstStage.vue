@@ -190,7 +190,8 @@
   import PersonalCard from "@components/Pc/PersonalCard/PersonalCard";
   import moment from 'moment';
   import api from '@api/apiSugar';
-  import baseUrl from '@api/baseUrl'
+  import baseUrl from '@api/baseUrl';
+  import hobby from '@common/jsonData/hobby';
 
   const formItemLayout = {
     labelCol: {span: 8},
@@ -210,7 +211,7 @@
         form: this.$form.createForm(this),
         formItemLayout,
         formTailLayout,
-        hobbyOption: ['书法', '写作', '乐器', '舞蹈', '游戏', '影视', '美食', '旅游', '社交', '歌唱', '阅读', '下棋'],
+        hobbyOption: hobby,
         personalData: {},
         imgFileList: [],
         uploadSpinning: false,

@@ -7,11 +7,23 @@
     background-size: 100% 100%;
     background-position: center center;
     background-repeat: no-repeat;
+
+    .logo-style {
+      padding: 2px;
+      display: block;
+      width: 100px;
+      height: 100px;
+    }
   }
 </style>
 
 <template>
   <div class="Pc">
+    <a-affix :style="{ position: 'absolute', top: '50px', left: '100px'}">
+      <img class="logo-style" :src="wnlo" alt="wnlo">
+      <img class="logo-style" :src="fl" alt="fl">
+      <img class="logo-style" :src="hls" alt="hls">
+    </a-affix>
     <vue-particles
             color="#ffe450"
             :particleOpacity="0.7"
@@ -35,6 +47,13 @@
 
 <script>
   export default {
-    name: "Pc"
+    name: "Pc",
+    data() {
+      return {
+        wnlo: require('@assets/wnlo.png'),
+        hls: require('@assets/hls.png'),
+        fl: require('@assets/fl.png'),
+      }
+    }
   }
 </script>
