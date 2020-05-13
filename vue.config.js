@@ -42,12 +42,12 @@ module.exports = {
   },
 
   configureWebpack: {
-    // externals : {
-    //   vue: "Vue",
-    //   "vue-router": "VueRouter",
-    //   vuex: "Vuex",
-    //   axios: "axios",
-    // },
+    externals : {
+      vue: "Vue",
+      "vue-router": "VueRouter",
+      vuex: "Vuex",
+      axios: "axios",
+    },
     performance: {
       hints: false
     }

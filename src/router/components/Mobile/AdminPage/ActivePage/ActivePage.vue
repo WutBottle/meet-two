@@ -34,7 +34,7 @@
                 @load="onLoad"
         >
           <van-cell-group>
-            <van-cell v-for="(item, index) in list" :key="index" is-link @click="showCard(item)">
+            <van-cell v-for="(item, index) in list" :key="index" is-link @click="showCard(index)">
               <template #title>
                 <div class="name-style">
                   <van-tag v-if="item.gender === 1" type="primary">{{item.nickname}}</van-tag>
@@ -55,7 +55,9 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex';
   import PersonalCard from "../../PersonalCard/PersonalCard";
+  import api from '@api/apiSugar';
   export default {
     name: "ActivePage",
     components: {
@@ -64,38 +66,67 @@
     data() {
       return {
         searchValue: '',
-        list: [{
-          nickname: '张鹏',
-          gender: 1,
-          schoolNumber: 'M201973007',
-          college: '武汉光电国家研究中心'
-        }, {
-          nickname: '黄宝金',
-          gender: 0,
-          schoolNumber: 'M201973008',
-          college: '软件学院'
-        }],
+        list: [],
         loading: false,
         finished: false,
         cardShow: false,
         personalData: {},
       }
     },
+    computed: {
+      ...mapState({
+        pagingOption: state => state.userOperation.pagingOption,
+      })
+    },
     methods: {
       onSearch(val) {
-        console.log(val)
+        this.list = [];
+        this.pagingOption.pageNum = 1;
+        this.pagingOption.totalNum = null;
+        this.searchValue = val;
+        this.onLoad();
       },
       onCancel() {
       },
       onLoad() {
         // 异步更新数据
-        this.loading = false;
+        this.loading = true;
+
+        api.userController.getUserListUnable({
+          nickname: this.searchValue,
+          pageNum: this.pagingOption.pageNum,
+          pageLimit: this.pagingOption.pageLimit,
+        }).then(res => {
+          if (res.data.data && res.data.meta.success){
+            this.pagingOption.totalNum = res.data.data.totalElements;
+            if (!this.searchValue) {
+              this.pagingOption.badge = res.data.data.totalElements;
+            }
+            res.data.data.content.map(item => {
+              this.list.push(item)
+            });
+            if (this.list.length >= this.pagingOption.totalNum) {
+              this.finished = true;
+            } else {
+              this.pagingOption.pageNum++;
+              this.finished = false;
+            }
+            this.loading = false;
+          } else {
+            this.$notify({type: 'danger', message: res.data.meta.message});
+          }
+        });
+
       },
-      showCard(data) {
+      showCard(index) {
+        let tempData = JSON.parse(JSON.stringify(this.list[index]));
+        tempData.hobby = tempData.hobby && tempData.hobby.split(',')
         this.cardShow = true;
+        this.personalData = tempData;
       },
       handleClosePop() {
         this.cardShow = false;
+        this.onSearch('');
       }
     }
   }

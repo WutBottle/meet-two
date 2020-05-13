@@ -3,13 +3,15 @@
 * 登录处理
 */
 import api from '@api/apiSugar';
-import {ACCESS_TOKEN, ROLE, ENVIRONMENT} from '@store/mutation-types';
+import {ACCESS_TOKEN, ROLE, ENVIRONMENT, ENABLE, ANSWER} from '@store/mutation-types';
 
 const state = {
   status: '',
   token: localStorage.getItem(ACCESS_TOKEN) || '',
   role: localStorage.getItem(ROLE) || '',
   environment: localStorage.getItem(ENVIRONMENT) || '',
+  enable: localStorage.getItem(ENABLE) || '',
+  answer: localStorage.getItem(ANSWER) || '',
 };
 
 const mutations = {
@@ -18,8 +20,12 @@ const mutations = {
     //更新本地token
     localStorage.setItem(ACCESS_TOKEN, user.token);
     localStorage.setItem(ROLE, user.role);
+    localStorage.setItem(ENABLE, user.enable);
+    localStorage.setItem(ANSWER, user.answer);
     state.token = user.token;
     state.role = user.role;
+    state.enable = user.enable;
+    state.answer = user.answer;
   },
   authError(state) {
     state.status = 'error';
@@ -33,6 +39,8 @@ const mutations = {
     state.username = '';
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(ROLE);
+    localStorage.removeItem(ENABLE);
+    localStorage.removeItem(ANSWER);
   },
   environmentSet(state, data) {
     state.environment = data;

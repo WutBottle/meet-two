@@ -5,7 +5,12 @@
 import api from '@api/apiSugar';
 
 const state = {
-
+  pagingOption: {
+    pageNum: 1,
+    pageLimit: 1,
+    totalNum: null,
+    badge: null,
+  },
 };
 
 const mutations = {

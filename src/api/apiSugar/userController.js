@@ -21,8 +21,14 @@ const userController = {
     return axios.get(`${baseUrl.userController}/userProfile`);
   },
   uploadAvatar(params) {
-  return axios.post(`${baseUrl.userController}/upload`, params);
-},
+    return axios.post(`${baseUrl.userController}/upload`, params);
+  },
+  getUserListUnable(params) {
+    return axios.post(`${baseUrl.userController}/getUserListUnable`, params);
+  },
+  userActive(params) {
+    return axios.post(`${baseUrl.userController}/active`, params);
+  },
 };
 
 export default userController;

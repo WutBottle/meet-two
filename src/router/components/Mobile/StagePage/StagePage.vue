@@ -1,6 +1,7 @@
 <style scoped lang="scss">
   .StagePage {
     overflow: hidden;
+
     .list-style {
       height: 150px;
       border-radius: 12px;
@@ -8,7 +9,7 @@
       font-size: 42px;
       line-height: 150px;
       text-align: center;
-      font-family: 'AJC',serif;
+      font-family: 'AJC', serif;
       margin-bottom: 12px;
     }
   }
@@ -38,14 +39,26 @@
 </template>
 
 <script>
+  import {ENABLE, ANSWER} from '@store/mutation-types';
+
   export default {
     name: "StagePage",
     methods: {
       jumpToStage1() {
-        this.$router.push({path: '/mobile/stage1'})
+        if (localStorage.getItem(ANSWER) === 'null') {
+          this.$router.push({
+            path: '/mobile/test'
+          });
+        } else {
+          this.$router.push({path: '/mobile/stage1'})
+        }
       },
       showTips() {
-        this.$notify({type: 'warning', message: '该阶段暂未开放，敬请期待'});
+        if (localStorage.getItem(ENABLE) === '1') {
+          this.$notify({type: 'warning', message: '该阶段暂未开放，敬请期待'});
+        } else {
+          this.$notify({type: 'danger', message: '该账户尚未激活，请联系管理员'});
+        }
       },
       onClickLeft() {
         this.$router.push({path: '/mobile/login'})

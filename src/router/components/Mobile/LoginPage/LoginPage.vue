@@ -154,7 +154,11 @@
         }).then(res => {
           if (res && res.data.meta.success) {
             this.$notify({type: 'success', message: '登录成功'});
-            this.$router.push({path: '/mobile/stage'})
+            if (res.data.data.role === '管理员') {
+              this.$router.push({path: '/mobile/admin'})
+            }else {
+              this.$router.push({path: '/mobile/stage'})
+            }
           } else {
             this.$notify({type: 'warning', message: res.data.meta.message});
           }

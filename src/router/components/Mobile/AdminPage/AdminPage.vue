@@ -18,13 +18,14 @@
       </keep-alive>
     </div>
     <van-tabbar v-model="currentTabComponent">
-      <van-tabbar-item name="ActivePage" icon="friends" badge="5">激活审核</van-tabbar-item>
+      <van-tabbar-item name="ActivePage" icon="friends" :badge="pagingOption.badge">激活审核</van-tabbar-item>
       <van-tabbar-item name="ManagementPage" icon="fire">用户管理</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
 <script>
+  import {mapState} from 'vuex';
   import ActivePage from "./ActivePage/ActivePage";
   import ManagementPage from "./ManagementPage/ManagementPage";
   export default {
@@ -37,6 +38,11 @@
       return {
         currentTabComponent: 'ActivePage',
       }
+    },
+    computed: {
+      ...mapState({
+        pagingOption: state => state.userOperation.pagingOption,
+      })
     },
      methods: {
        onClickLeft() {

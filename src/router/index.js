@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router);
+import {ENVIRONMENT} from '@store/mutation-types';
 
 // hack router push callback
 const originalPush = Router.prototype.push;
@@ -19,13 +20,19 @@ const Mobile = r => require.ensure([], () => r(require('@components/Mobile/Mobil
 const MLoginPage = r => require.ensure([], () => r(require('@components/Mobile/LoginPage/LoginPage')));
 const MStagePage = r => require.ensure([], () => r(require('@components/Mobile/StagePage/StagePage')));
 const MFirstPage = r => require.ensure([], () => r(require('@components/Mobile/FirstPage/FirstPage')));
-const MAdmin = r => require.ensure([], () => r(require('@components/Mobile/AdminPage/AdminPage')));
+const MAdminPage = r => require.ensure([], () => r(require('@components/Mobile/AdminPage/AdminPage')));
+const MTestPage = r => require.ensure([], () => r(require('@components/Mobile/TestPage/TestPage')));
+
 const Page404 = r => require.ensure([], () => r(require('@components/Page404/Page404')));
 
 /* 一级二级路由配置示例 */
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/',
+      redirect: localStorage.getItem(ENVIRONMENT) === 'true' ? '/mobile/stage' : '/pc/stage',
+    },
     {
       path: '/pc',
       component: Pc,
@@ -61,7 +68,11 @@ export default new Router({
       }, {
         path: 'admin',
         name: 'MAdmin',
-        component: MAdmin,
+        component: MAdminPage,
+      }, {
+        path: 'test',
+        name: 'MTest',
+        component: MTestPage,
       }],
     },
     {
