@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {ENVIRONMENT} from '@store/mutation-types';
 
 Vue.use(Router);
 
@@ -18,19 +17,15 @@ const FirstStage = r => require.ensure([], () => r(require('@components/Pc/First
 
 const Mobile = r => require.ensure([], () => r(require('@components/Mobile/Mobile')));
 const MLoginPage = r => require.ensure([], () => r(require('@components/Mobile/LoginPage/LoginPage')));
-const MStagePage = r => require.ensure([], () => r(require('@components/Mobile/StagePage/StagePage')))
-const MFirstPage = r => require.ensure([], () => r(require('@components/Mobile/FirstPage/FirstPage')))
-
+const MStagePage = r => require.ensure([], () => r(require('@components/Mobile/StagePage/StagePage')));
+const MFirstPage = r => require.ensure([], () => r(require('@components/Mobile/FirstPage/FirstPage')));
+const MAdmin = r => require.ensure([], () => r(require('@components/Mobile/AdminPage/AdminPage')));
 const Page404 = r => require.ensure([], () => r(require('@components/Page404/Page404')));
 
 /* 一级二级路由配置示例 */
 export default new Router({
   mode: 'history',
   routes: [
-    {
-      path: '/',
-      redirect: localStorage.getItem(ENVIRONMENT) === 'true' ? '/mobile/login' : 'pc/login'
-    },
     {
       path: '/pc',
       component: Pc,
@@ -63,11 +58,11 @@ export default new Router({
         path: 'stage1',
         name: 'MFirstPage',
         component: MFirstPage,
+      }, {
+        path: 'admin',
+        name: 'MAdmin',
+        component: MAdmin,
       }],
-    },
-    {
-      path: '/mobile',
-      component: Mobile,
     },
     {
       path: '/404',

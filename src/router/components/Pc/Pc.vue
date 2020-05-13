@@ -25,6 +25,7 @@
       <img class="logo-style" :src="hls" alt="hls">
     </a-affix>
     <vue-particles
+            style="height: 100vh"
             color="#ffe450"
             :particleOpacity="0.7"
             :particlesNumber="60"

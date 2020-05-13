@@ -21,12 +21,24 @@
         </van-field>
         <van-field label="学号" required :value="personalData.schoolNumber" readonly />
         <van-field
-                v-model="personalData.college"
-                required
+                readonly
+                clickable
+                :value="personalData.college"
                 label="学院"
-                placeholder="请输入学院"
-                :rules="[{ required: true, message: '请输入学院!' }]"
+                required
+                placeholder="请选择学院"
+                @click="showCollegePicker = true"
+                :rules="[{ required: true, message: '请选择学院!' }]"
         />
+        <van-popup v-model="showCollegePicker" position="bottom">
+          <van-picker
+                  show-toolbar
+                  :default-index="collegeOptions.findIndex(item => item === personalData.college)"
+                  :columns="collegeOptions"
+                  @confirm="onCollegeConfirm"
+                  @cancel="showCollegePicker = false"
+          />
+        </van-popup>
         <van-field
                 v-model="personalData.height"
                 type="number"
@@ -126,6 +138,7 @@
   import api from '@api/apiSugar';
   import hobby from '@common/jsonData/hobby';
   import baseUrl from '@api/baseUrl';
+  import college from "@common/jsonData/college";
 
   export default {
     name: "FirstPage",
@@ -139,6 +152,8 @@
         personalData: {},
         bornDate: '', // 出生日期
         showPicker: false,
+        collegeOptions: college,
+        showCollegePicker: false, // 学院选择控制
         minDate: new Date(1975, 0, 1),
         maxDate: new Date(),
         hobbyOption: hobby,
@@ -221,6 +236,10 @@
         this.$router.push({
           path: '/mobile/stage'
         })
+      },
+      onCollegeConfirm(value) {
+        this.personalData.college = value;
+        this.showCollegePicker = false;
       }
     }
   }

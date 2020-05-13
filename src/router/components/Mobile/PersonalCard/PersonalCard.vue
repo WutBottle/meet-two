@@ -6,6 +6,10 @@
       white-space: normal;
       line-height: 24px;
     }
+
+    .button-wrapper {
+      display: flex;
+    }
   }
 </style>
 
@@ -20,7 +24,7 @@
             <van-image style="margin-left: 8px" width="20" height="20" round :src="cardData.gender === 1 ? male : female" />
           </div>
           <div class="div-wrapper">
-            学院：{{cardData.schoolNumber}}
+            学院：{{cardData.college}}
           </div>
           <div class="div-wrapper">
             出生日期：{{cardData.bornDate && moment(cardData.bornDate).format("YYYY-MM-DD")}}
@@ -50,6 +54,10 @@
         {{cardData.introduction}}
       </van-row>
     </div>
+    <div v-if="isAdmin" class="button-wrapper">
+      <van-button type="primary" size="large" @click="handleActive(true)">通过</van-button>
+      <van-button type="danger" size="large" @click="handleActive(false)">不通过</van-button>
+    </div>
   </div>
 </template>
 
@@ -60,6 +68,7 @@
     name: "PersonalCard",
     props: {
       cardData: Object,
+      isAdmin: Boolean,
     },
     data() {
       return {
@@ -70,6 +79,14 @@
     },
     methods: {
       moment,
+      handleActive(status) {
+        if (status) {
+          this.$toast.success('已通过');
+        } else {
+          this.$toast.fail('已拒绝');
+        }
+        this.$emit('handleClosePop');
+      },
     }
   }
 </script>

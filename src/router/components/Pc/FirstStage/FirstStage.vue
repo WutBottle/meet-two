@@ -66,14 +66,16 @@
             {{personalData.schoolNumber}}
           </a-form-item>
           <a-form-item label="学院">
-            <a-input
+            <a-select
                     v-decorator="[
           'college',
           { initialValue: personalData.college,
-          rules: [{ required: true, message: '请输入所在学院!' }] },
-        ]"
-                    placeholder="请输入所在学院"
-            />
+          rules: [{ required: true, message: '请选择所在学院!' }] },
+        ]">
+              <a-select-option v-for="item in collegeOptions" :key="item">
+                {{item}}
+              </a-select-option>
+            </a-select>
           </a-form-item>
           <a-form-item label="身高">
             <a-input-number v-decorator="['height',
@@ -192,6 +194,7 @@
   import api from '@api/apiSugar';
   import baseUrl from '@api/baseUrl';
   import hobby from '@common/jsonData/hobby';
+  import college from '@common/jsonData/college';
 
   const formItemLayout = {
     labelCol: {span: 8},
@@ -214,6 +217,7 @@
         hobbyOption: hobby,
         personalData: {},
         imgFileList: [],
+        collegeOptions: college,
         uploadSpinning: false,
         fileName: '',
         cardSpinning: false,
