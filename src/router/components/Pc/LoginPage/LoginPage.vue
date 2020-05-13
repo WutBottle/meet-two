@@ -72,7 +72,7 @@
         ]"
                       placeholder="请输入真实姓名"
               >
-                <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)"/>
+                <a-icon slot="prefix" type="reddit" style="color: rgba(0,0,0,.25)"/>
               </a-input>
             </a-form-item>
             <a-form-item label="学号">
@@ -84,7 +84,7 @@
         ]"
                       placeholder="请输入真实学号"
               >
-                <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)"/>
+                <a-icon slot="prefix" type="number" style="color: rgba(0,0,0,.25)"/>
               </a-input>
             </a-form-item>
             <a-form-item label="账号">
