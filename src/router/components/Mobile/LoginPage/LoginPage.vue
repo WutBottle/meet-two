@@ -129,6 +129,8 @@
 <script>
   import {mapActions} from 'vuex';
   import api from '@api/apiSugar';
+  import lrz from 'lrz';
+  import base64ToFile from '@common/js/base64ToFile';
   import baseUrl from '@api/baseUrl';
   export default {
     name: "LoginPage",
@@ -196,21 +198,25 @@
         return new Promise((resolve, reject) => {
           if (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') {
             this.imgLoading = true;
-            const formData = new FormData();
-            let tempImgList = [];
-            tempImgList = [...this.imgFileList, file];
-            tempImgList.forEach((file) => {
-              formData.append('multipartFiles', file);
-            });
-            // 手动上传
-            api.userController.uploadAvatar(formData).then((data) => {
-              this.fileName = baseUrl.serverBaseController + data.data.data;
-              this.$notify({type: 'success', message: '照片已上传'});
-              this.imgLoading = false;
-              resolve(file);
-            }).catch((error) => {
-              this.$notify({type: 'error', message: '上传失败'});
-              reject();
+            lrz(file).then((rst) => {
+              // 处理成功会执行
+              const formData = new FormData();
+              let tempFileList = [base64ToFile(rst.base64, rst.origin.name)];
+              tempFileList.forEach((file) => {
+                formData.append('multipartFiles', file);
+              });
+              api.userController.uploadAvatar(formData).then((data) => {
+                this.fileName = baseUrl.serverBaseController + data.data.data;
+                this.$notify({type: 'success', message: '照片已上传'});
+                this.imgLoading = false;
+                resolve(file);
+              }).catch((error) => {
+                this.$notify({type: 'error', message: '上传失败'});
+                reject();
+              });
+            }).catch(function (err) {
+              // 处理失败会执行
+              this.$notify({type: 'error', message: '图片压缩失败'});
             });
           } else {
             this.$toast('请上传.jpg/.png/.jpeg格式图片');

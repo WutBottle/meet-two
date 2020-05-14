@@ -191,10 +191,12 @@
 <script>
   import PersonalCard from "@components/Pc/PersonalCard/PersonalCard";
   import moment from 'moment';
+  import lrz from 'lrz';
   import api from '@api/apiSugar';
   import baseUrl from '@api/baseUrl';
   import hobby from '@common/jsonData/hobby';
   import college from '@common/jsonData/college';
+  import base64ToFile from '@common/js/base64ToFile'
 
   const formItemLayout = {
     labelCol: {span: 8},
@@ -285,29 +287,43 @@
         this.imgFileList = newFileList;
         this.form.setFieldsValue({
           uploadFile: null,
-        })
+        });
       },
       beforeUpload(file) {
         this.uploadSpinning = true;
-        this.handleRemove(file);
         if (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') {
-          const formData = new FormData();
-          this.imgFileList = [...this.imgFileList, file];
-          this.imgFileList.forEach((file) => {
-            formData.append('multipartFiles', file);
-          });
-          // 手动上传
-          api.userController.uploadAvatar(formData).then((data) => {
-            this.fileName = baseUrl.serverBaseController + data.data.data;
-            this.$message.success('文件已上传');
-            this.uploadSpinning = false;
-          }).catch((error) => {
-            this.$message.error('上传失败');
-            this.uploadSpinning = false;
-          });
+          lrz(file).then((rst) => {
+            // 处理成功会执行
+            const formData = new FormData();
+            let tempFileList = [base64ToFile(rst.base64, rst.origin.name)];
+            tempFileList.forEach((file) => {
+              formData.append('multipartFiles', file);
+            });
+            // 手动上传
+            api.userController.uploadAvatar(formData).then((data) => {
+              this.fileName = baseUrl.serverBaseController + data.data.data;
+              this.handleRemove(file);
+              this.imgFileList.push({
+                uid: '-1',
+                name: 'image',
+                status: 'done',
+                url: this.fileName,
+              });
+              this.form.setFieldsValue({
+                uploadFile: this.imgFileList,
+              });
+              this.$message.success('照片已上传');
+              this.uploadSpinning = false;
+            }).catch((error) => {
+              this.$message.error('上传失败');
+              this.uploadSpinning = false;
+            });
+          }).catch(function (err) {
+            // 处理失败会执行
+            this.$message.error('压缩失败！');
+          })
         } else {
           this.$message.error('只能上传.jpg.jpeg.png类型文件');
-          this.handleRemove(file);
           this.uploadSpinning = false;
         }
         return false;

@@ -22,7 +22,7 @@
     <form action="/">
       <van-search
               v-model="searchValue"
-              placeholder="请输入搜索关键词"
+              placeholder="搜索关键词：姓名或学号"
               @search="onSearch"
               @cancel="onCancel"
       />

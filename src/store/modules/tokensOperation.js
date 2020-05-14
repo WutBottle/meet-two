@@ -45,6 +45,10 @@ const mutations = {
   environmentSet(state, data) {
     state.environment = data;
     localStorage.setItem(ENVIRONMENT, data);
+  },
+  answerSet(state, data) {
+    state.answer = data;
+    localStorage.setItem(ANSWER, data);
   }
 };
 

@@ -133,12 +133,15 @@
 </template>
 
 <script>
+  import {mapMutations} from 'vuex'
   import PersonalCard from "../PersonalCard/PersonalCard";
   import moment from "moment";
   import api from '@api/apiSugar';
   import hobby from '@common/jsonData/hobby';
   import baseUrl from '@api/baseUrl';
   import college from "@common/jsonData/college";
+  import lrz from 'lrz';
+  import base64ToFile from '@common/js/base64ToFile';
 
   export default {
     name: "FirstPage",
@@ -167,6 +170,9 @@
       this.getPersonalData();
     },
     methods: {
+      ...mapMutations({
+        answerSet: 'tokensOperation/answerSet'
+      }),
       getPersonalData(showCard) {
         api.userController.getUserData().then(res => {
           if (res) {
@@ -174,6 +180,7 @@
             this.personalData.hobby = res.data.data.hobby ? res.data.data.hobby.split(',') : [];
             this.personalData.bornDate = this.personalData.bornDate && new Date(this.personalData.bornDate);
             this.bornDate = res.data.data.bornDate && moment(res.data.data.bornDate).format('YYYY-MM-DD');
+            this.answerSet(res.data.data.answer);
             if (this.personalData.userImg) {
               this.fileName = this.personalData.userImg;
               this.imgFileList = [];
@@ -196,21 +203,25 @@
         return new Promise((resolve, reject) => {
           if (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') {
             this.imgLoading = true;
-            const formData = new FormData();
-            let tempImgList = [];
-            tempImgList = [...this.imgFileList, file];
-            tempImgList.forEach((file) => {
-              formData.append('multipartFiles', file);
-            });
-            // 手动上传
-            api.userController.uploadAvatar(formData).then((data) => {
-              this.fileName = baseUrl.serverBaseController + data.data.data;
-              this.$notify({type: 'success', message: '照片已上传'});
-              this.imgLoading = false;
-              resolve(file);
-            }).catch((error) => {
-              this.$notify({type: 'error', message: '上传失败'});
-              reject();
+            lrz(file).then((rst) => {
+              // 处理成功会执行
+              const formData = new FormData();
+              let tempFileList = [base64ToFile(rst.base64, rst.origin.name)];
+              tempFileList.forEach((file) => {
+                formData.append('multipartFiles', file);
+              });
+              api.userController.uploadAvatar(formData).then((data) => {
+                this.fileName = baseUrl.serverBaseController + data.data.data;
+                this.$notify({type: 'success', message: '照片已上传'});
+                this.imgLoading = false;
+                resolve(file);
+              }).catch((error) => {
+                this.$notify({type: 'error', message: '上传失败'});
+                reject();
+              });
+            }).catch(function (err) {
+              // 处理失败会执行
+              this.$notify({type: 'error', message: '图片压缩失败'});
             });
           } else {
             this.$toast('请上传.jpg/.png/.jpeg格式图片');

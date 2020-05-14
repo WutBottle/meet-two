@@ -6,7 +6,7 @@ import api from '@api/apiSugar';
 
 const state = {
   pagingOption: {
-    pageNum: 1,
+    pageNum: 6,
     pageLimit: 1,
     totalNum: null,
     badge: null,
