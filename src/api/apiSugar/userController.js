@@ -32,6 +32,9 @@ const userController = {
   userMatch(params) {
     return axios.post(`${baseUrl.userController}/userMatch`, params);
   },
+  love(params){
+    return axios.post(`${baseUrl.userController}/love`, params);
+  },
 };
 
 export default userController;

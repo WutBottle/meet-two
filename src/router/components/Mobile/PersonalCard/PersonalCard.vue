@@ -11,7 +11,7 @@
       display: flex;
 
       .van-button {
-        margin: 8px 22px 22px 22px;
+        margin: 8px 20px 30px 20px;
       }
     }
   }
@@ -63,8 +63,8 @@
       </van-row>
     </div>
     <div v-if="isAdmin" class="button-wrapper">
-      <van-button type="primary" size="large" round color="linear-gradient(to right, #37d6b6, #8effa3)" @click="handleActive(true)">通过</van-button>
-      <van-button type="danger" size="large" round @click="handleActive(false)">不通过</van-button>
+      <van-button type="primary" size="large" round color="linear-gradient(to right, #37d6b6, #0ac2c9)" @click="handleActive(true)">通过</van-button>
+      <van-button type="danger" size="large" round color="linear-gradient(to right, #fd3e30, #ff7d36)" @click="handleActive(false)">不通过</van-button>
     </div>
   </div>
 </template>
@@ -73,8 +73,8 @@
   import api from '@api/apiSugar';
   import moment from 'moment';
 
-  const color = ['#7232dd', '#f2826a', '#ff361e', '#f6941d',
-    '#fa5a5a', '#f0d264', '#82c8a0', '#7fccde', '#6698cb', '#cb99c5'];
+  const color = ['#7232dd', '#f2826a', '#ff361e', '#fa5a5a',
+    '#f17db1', '#ffcb05', '#42dc84', '#02b8e2', '#a6ce39', '#0080ff'];
   export default {
     name: "PersonalCard",
     props: {

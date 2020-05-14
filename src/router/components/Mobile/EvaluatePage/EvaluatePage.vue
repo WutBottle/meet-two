@@ -4,14 +4,17 @@
       height: calc(100vh - 95px);
       overflow-y: visible;
       overflow-x: hidden;
-      text-align: center;
     }
 
     .button-wrapper {
+      padding: 0 20px;
       display: flex;
       position: fixed;
       width: 100%;
       bottom: 0;
+      img {
+        display: flex;
+      }
     }
   }
 </style>
@@ -26,42 +29,77 @@
     />
     <div class="card-wrapper">
       <transition :name="this.slideDirection ? 'van-slide-left' : 'van-slide-right'">
-        <div v-show="visible" style="width: 80%;height: 500px;background-color: #29c5ff;display: inline-block"></div>
+        <PersonalCard v-show="visible" :cardData="personalData"/>
       </transition>
     </div>
     <div class="button-wrapper">
-      <van-button type="primary" round size="large" color="linear-gradient(to right, #FF4D3E, #FF938A)" @click="handleLike(true)">喜欢</van-button>
-      <van-button type="primary" round size="large" color="linear-gradient(to right, #8b8a88, #CCCBC8)" @click="handleLike(false)">不喜欢</van-button>
+      <van-button style="margin-right: 10px" type="primary" icon="like-o" round size="large" color="linear-gradient(to right, #ff5559, #ef7f94)" @click="handleLike(true)">喜欢</van-button>
+      <van-button style="margin-left: 10px"type="primary" :icon="dislike" round size="large" color="linear-gradient(to right, #40399e, #7a93ee)" @click="handleLike(false)">不喜欢</van-button>
     </div>
   </div>
 </template>
 
 <script>
+  import api from '@api/apiSugar';
+  import PersonalCard from "../PersonalCard/PersonalCard";
+
   export default {
     name: "EvaluatePage",
+    components: {
+      PersonalCard
+    },
     data() {
       return {
         visible: true,
         slideDirection: true,
         isLike: null,
-        cardData: [1,2,3,4,5]
+        cardData: [1,2,3,4,5],
+        dislike: require('@assets/dislike.png'),
+        personalData: {},
       }
     },
+    mounted() {
+      this.getMatchUser();
+    },
+
     methods: {
       handleLike(index) {
         this.isLike = index;
-        if (index) {
-          this.$toast.success('喜欢');
-          this.slideDirection = true;
-        } else {
-          this.$toast.fail('不喜欢');
-          this.slideDirection = false;
-        }
-        this.visible = !this.visible;
-        setTimeout(() => {
-          this.visible = !this.visible;
-        }, 800);
-      }
+        api.userController.love({
+          userId: this.personalData.userId,
+          love: index
+        }).then(res => {
+          if (res && res.data.meta.success){
+            if (index) {
+              this.$toast.success('喜欢');
+              this.slideDirection = true;
+            } else {
+              this.$toast.fail('不喜欢');
+              this.slideDirection = false;
+            }
+            this.visible = false;
+            this.getMatchUser();
+          } else {
+            this.$notify({type: 'danger', message: '服务器错误!'});
+          }
+        });
+      },
+      getMatchUser() {
+        api.userController.userMatch().then(res => {
+          console.log(res)
+          if (res && res.data.meta.success){
+            if (res.data.data) {
+              this.personalData = res.data.data;
+              this.personalData.hobby = res.data.data.hobby && res.data.data.hobby.split(',');
+              this.visible = true;
+            }else {
+              this.$notify({type: 'warning', message: '已无更多候选人!'});
+            }
+          } else {
+            this.$notify({type: 'danger', message: '服务器错误!'});
+          }
+        })
+      },
     }
   }
 </script>
