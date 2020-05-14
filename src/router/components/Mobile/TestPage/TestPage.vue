@@ -341,6 +341,7 @@
 </template>
 
 <script>
+  import api from '@api/apiSugar';
   export default {
     name: "TestPage",
     data() {
@@ -358,9 +359,16 @@
           }
         });
         if (judge) {
-          this.$notify({type: 'success', message: '恭喜你完成测评!'});
-          this.$router.push('/mobile/stage1');
-          alert(this.radio.join(''))
+          api.userController.verifyUser({
+            answer: this.radio.join(''),
+          }).then(res => {
+            if (res && res.data.meta.success) {
+              this.$notify({type: 'success', message: '恭喜你完成测评!'});
+              this.$router.push('/mobile/stage1');
+            } else {
+              this.$notify({type: 'error', message: '响应超时'});
+            }
+          })
         }else {
           this.$notify({type: 'warning', message: '您还有题目未完成!'});
         }

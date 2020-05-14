@@ -3,14 +3,44 @@
     overflow: hidden;
 
     .list-style {
+      margin: 10px;
       height: 150px;
       border-radius: 12px;
-      color: white;
-      font-size: 42px;
-      line-height: 150px;
-      text-align: center;
-      font-family: 'AJC', serif;
-      margin-bottom: 12px;
+
+      .title-wrapper {
+        color: #fff;
+        font-size: 26px;
+        align-items: center;
+        display: flex;
+        padding: 8px 10px 0 10px;
+
+        .icon-wrapper {
+          display: flex;
+        }
+      }
+
+      .saying-wrapper {
+        font-size: 14px;
+        padding: 0 18px;
+        margin-top: 10px;
+        color: white;
+      }
+
+      &:nth-of-type(2) {
+        background-image: linear-gradient(to right, #125899, #5df4f1);
+      }
+
+      &:nth-of-type(3) {
+        background-image: linear-gradient(to right, #e23659, #FFD763);
+      }
+
+      &:nth-of-type(4) {
+        background-image: linear-gradient(to right, #078f17, #77ff98);
+      }
+
+      &:nth-of-type(5) {
+        background-image: linear-gradient(to right, #3465f1, #c1c1e2);
+      }
     }
   }
 </style>
@@ -23,17 +53,41 @@
             left-arrow
             @click-left="onClickLeft"
     />
-    <div class="list-style" @click="jumpToStage1" style="background-color: #09c2ff">
-      我的档案
+    <div class="list-style" @click="jumpToStage1">
+      <div class="title-wrapper">
+        <van-icon class="icon-wrapper" :name="logo1" size="46"/>
+        我的档案
+      </div>
+      <div class="saying-wrapper">
+        人的一生，除了要面对无常带来的跌宕，还有贯穿在其中的平淡和琐碎。
+      </div>
     </div>
-    <div class="list-style" @click="showTips" style="background-color: #29e024">
-      倾心互评
+    <div class="list-style" @click="showTips">
+      <div class="title-wrapper">
+        <van-icon class="icon-wrapper" :name="logo2" size="46"/>
+        倾心互评
+      </div>
+      <div class="saying-wrapper">
+        这个世界里，虽然没有最美好的相遇，却应该有为了相遇或者重逢，所做的最美好的努力。
+      </div>
     </div>
-    <div class="list-style" @click="showTips" style="background-color: #ff2245">
-      匹配结果
+    <div class="list-style" @click="showTips">
+      <div class="title-wrapper">
+        <van-icon class="icon-wrapper" :name="logo3" size="46"/>
+        匹配结果
+      </div>
+      <div class="saying-wrapper">
+        我恨自己别无选择，只能冒险爱你。
+      </div>
     </div>
-    <div class="list-style" @click="showTips" style="background-color: #ffd12f">
-      打卡任务
+    <div class="list-style" @click="showTips">
+      <div class="title-wrapper">
+        <van-icon class="icon-wrapper" :name="logo4" size="46"/>
+        打卡任务
+      </div>
+      <div class="saying-wrapper">
+        　对于三十岁以后的人来说，十年八年不过是指缝间的事；而对于年轻人而言，三年五年就可以是一生一世。
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +97,14 @@
 
   export default {
     name: "StagePage",
+    data() {
+      return {
+        logo1: require('@assets/stageLogo/1c.png'),
+        logo2: require('@assets/stageLogo/2c.png'),
+        logo3: require('@assets/stageLogo/3c.png'),
+        logo4: require('@assets/stageLogo/4c.png'),
+      }
+    },
     methods: {
       jumpToStage1() {
         if (localStorage.getItem(ANSWER) === 'null') {
