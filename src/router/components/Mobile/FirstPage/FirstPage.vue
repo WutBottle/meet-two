@@ -16,10 +16,10 @@
       <van-form @submit="onSubmit">
         <van-field label="姓名" required :value="personalData.nickname" readonly>
           <template #right-icon>
-            <van-image width="20" height="20" round :src="personalData.gender === 1 ? male : female" />
+            <van-image width="20" height="20" round :src="personalData.gender === 1 ? male : female"/>
           </template>
         </van-field>
-        <van-field label="学号" required :value="personalData.schoolNumber" readonly />
+        <van-field label="学号" required :value="personalData.schoolNumber" readonly/>
         <van-field
                 readonly
                 clickable
@@ -116,7 +116,7 @@
                 label="上传照片"
         >
           <template #input>
-            <van-uploader multiple :max-count="1" :before-read="beforeRead" v-model="imgFileList" />
+            <van-uploader multiple :max-count="1" :before-read="beforeRead" v-model="imgFileList"/>
           </template>
         </van-field>
         <div style="margin: 16px;">
@@ -206,7 +206,7 @@
             lrz(file).then((rst) => {
               // 处理成功会执行
               const formData = new FormData();
-              let tempFileList = [base64ToFile(rst.base64, rst.origin.name)];
+              let tempFileList = [base64ToFile(rst.base64, 'user.' + rst.origin.name.split('.')[1])];
               tempFileList.forEach((file) => {
                 formData.append('multipartFiles', file);
               });

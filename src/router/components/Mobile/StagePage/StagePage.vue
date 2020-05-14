@@ -27,19 +27,19 @@
       }
 
       &:nth-of-type(2) {
-        background-image: linear-gradient(to right, #125899, #5df4f1);
+        background-image: linear-gradient(to right, #3214F2, #32FBFC);
       }
 
       &:nth-of-type(3) {
-        background-image: linear-gradient(to right, #e23659, #FFD763);
+        background-image: linear-gradient(to right, #FC3832, #F2C314);
       }
 
       &:nth-of-type(4) {
-        background-image: linear-gradient(to right, #078f17, #77ff98);
+        background-image: linear-gradient(to right, #15EAFA, #FDF70F);
       }
 
       &:nth-of-type(5) {
-        background-image: linear-gradient(to right, #3465f1, #c1c1e2);
+        background-image: linear-gradient(to right, #1D1279, #E458FC);
       }
     }
   }

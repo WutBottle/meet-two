@@ -185,6 +185,7 @@
           schoolNumber: values.schoolNumber,
           gender: values.gender,
           password: values.password,
+          identityImg: this.fileName,
         }).then(res => {
           if (res && res.data.meta.success) {
             this.$notify({type: 'success', message: '注册成功，请登录！'});
@@ -201,7 +202,7 @@
             lrz(file).then((rst) => {
               // 处理成功会执行
               const formData = new FormData();
-              let tempFileList = [base64ToFile(rst.base64, rst.origin.name)];
+              let tempFileList = [base64ToFile(rst.base64, 'identify.' + rst.origin.name.split('.')[1])];
               tempFileList.forEach((file) => {
                 formData.append('multipartFiles', file);
               });

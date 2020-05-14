@@ -78,6 +78,9 @@
         pagingOption: state => state.userOperation.pagingOption,
       })
     },
+    mounted() {
+      this.pagingOption.pageNum = 1;
+    },
     methods: {
       onSearch(val) {
         this.list = [];
@@ -91,7 +94,6 @@
       onLoad() {
         // 异步更新数据
         this.loading = true;
-
         api.userController.getUserListUnable({
           nickname: this.searchValue,
           pageNum: this.pagingOption.pageNum,

@@ -159,7 +159,7 @@
                     v-decorator="[
           'uploadFile',
           {
-            valuePropName: 'uploadFile',
+            getValueFromEvent: normFile,
             rules: [{ required: true, message: '请上传您的生活照片!' }]
           },
         ]"
@@ -192,11 +192,11 @@
   import PersonalCard from "@components/Pc/PersonalCard/PersonalCard";
   import moment from 'moment';
   import lrz from 'lrz';
+  import base64ToFile from '@common/js/base64ToFile';
   import api from '@api/apiSugar';
   import baseUrl from '@api/baseUrl';
   import hobby from '@common/jsonData/hobby';
   import college from '@common/jsonData/college';
-  import base64ToFile from '@common/js/base64ToFile'
 
   const formItemLayout = {
     labelCol: {span: 8},
@@ -229,6 +229,12 @@
       this.getPersonalData();
     },
     methods: {
+      normFile(e) {
+        if (Array.isArray(e)) {
+          return e;
+        }
+        return e && e.fileList;
+      },
       getPersonalData() {
         api.userController.getUserData().then(res => {
           if (res) {
@@ -295,7 +301,7 @@
           lrz(file).then((rst) => {
             // 处理成功会执行
             const formData = new FormData();
-            let tempFileList = [base64ToFile(rst.base64, rst.origin.name)];
+            let tempFileList = [base64ToFile(rst.base64, 'user.' + rst.origin.name.split('.')[1])];
             tempFileList.forEach((file) => {
               formData.append('multipartFiles', file);
             });

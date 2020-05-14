@@ -9,13 +9,18 @@
 
     .button-wrapper {
       display: flex;
+
+      .van-button {
+        margin: 8px 22px 22px 22px;
+      }
     }
   }
 </style>
 
 <template>
   <div class="PersonalCard">
-    <van-image width="100%" height="250" fit="contain" :src="cardData.userImg"/>
+    <van-image v-if="isAdmin" width="100%" height="200" fit="contain" :src="cardData.identityImg"/>
+    <van-image width="100%" height="200" fit="contain" :src="cardData.userImg"/>
     <div style="padding: 12px 20px">
       <van-row gutter="12">
         <van-col span="12">
@@ -58,8 +63,8 @@
       </van-row>
     </div>
     <div v-if="isAdmin" class="button-wrapper">
-      <van-button type="primary" size="large" @click="handleActive(true)">通过</van-button>
-      <van-button type="danger" size="large" @click="handleActive(false)">不通过</van-button>
+      <van-button type="primary" size="large" round color="linear-gradient(to right, #37d6b6, #8effa3)" @click="handleActive(true)">通过</van-button>
+      <van-button type="danger" size="large" round @click="handleActive(false)">不通过</van-button>
     </div>
   </div>
 </template>
@@ -68,7 +73,8 @@
   import api from '@api/apiSugar';
   import moment from 'moment';
 
-  const color = ['#7232dd', '#f2826a', '#ff361e', '#f6941d', '#fa5a5a', '#f0d264', '#82c8a0', '#7fccde', '#6698cb', '#cb99c5', '#0080ff'];
+  const color = ['#7232dd', '#f2826a', '#ff361e', '#f6941d',
+    '#fa5a5a', '#f0d264', '#82c8a0', '#7fccde', '#6698cb', '#cb99c5'];
   export default {
     name: "PersonalCard",
     props: {
