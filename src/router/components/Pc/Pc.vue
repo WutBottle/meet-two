@@ -19,7 +19,7 @@
 
 <template>
   <div class="Pc">
-    <a-affix :style="{ position: 'absolute', top: '50px', left: '100px'}">
+    <a-affix :style="{ position: 'absolute', top: '50px', left: '50px'}">
       <img class="logo-style" :src="wnlo" alt="wnlo">
       <img class="logo-style" :src="fl" alt="fl">
       <img class="logo-style" :src="hls" alt="hls">

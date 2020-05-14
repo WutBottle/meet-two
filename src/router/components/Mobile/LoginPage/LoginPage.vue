@@ -95,8 +95,17 @@
               </van-radio-group>
             </template>
           </van-field>
+          <van-field
+                  required
+                  :rules="[{ required: true, message: '请上传学生证或校园卡正面!' }]"
+                  label="证明材料"
+          >
+            <template #input>
+              <van-uploader multiple :max-count="1" :before-read="beforeRead" v-model="imgFileList" />
+            </template>
+          </van-field>
           <div style="margin: 16px;">
-            <van-button round block type="info" native-type="submit">
+            <van-button round block :loading="imgLoading" loading-text="图片上传中..." type="info" native-type="submit">
               注册
             </van-button>
           </div>
@@ -120,7 +129,7 @@
 <script>
   import {mapActions} from 'vuex';
   import api from '@api/apiSugar';
-
+  import baseUrl from '@api/baseUrl';
   export default {
     name: "LoginPage",
     data() {
@@ -134,12 +143,15 @@
           nickname: '',
           schoolNumber: '',
           gender: '',
-          password: ''
+          password: '',
         },
         paneKey: 'login',
         wnlo: require('@assets/wnlo.png'),
         hls: require('@assets/hls.png'),
         fl: require('@assets/fl.png'),
+        imgFileList: [],
+        imgLoading: false,
+        fileName: '',
       }
     },
     methods: {
@@ -179,7 +191,33 @@
             this.$notify({type: 'warning', message: res.data.meta.message});
           }
         });
-      }
+      },
+      beforeRead(file) {
+        return new Promise((resolve, reject) => {
+          if (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') {
+            this.imgLoading = true;
+            const formData = new FormData();
+            let tempImgList = [];
+            tempImgList = [...this.imgFileList, file];
+            tempImgList.forEach((file) => {
+              formData.append('multipartFiles', file);
+            });
+            // 手动上传
+            api.userController.uploadAvatar(formData).then((data) => {
+              this.fileName = baseUrl.serverBaseController + data.data.data;
+              this.$notify({type: 'success', message: '照片已上传'});
+              this.imgLoading = false;
+              resolve(file);
+            }).catch((error) => {
+              this.$notify({type: 'error', message: '上传失败'});
+              reject();
+            });
+          } else {
+            this.$toast('请上传.jpg/.png/.jpeg格式图片');
+            reject();
+          }
+        });
+      },
     }
   }
 </script>

@@ -62,7 +62,7 @@
         人的一生，除了要面对无常带来的跌宕，还有贯穿在其中的平淡和琐碎。
       </div>
     </div>
-    <div class="list-style" @click="showTips">
+    <div class="list-style" @click="showTips('/mobile/evaluate')">
       <div class="title-wrapper">
         <van-icon class="icon-wrapper" :name="logo2" size="46"/>
         倾心互评
@@ -115,9 +115,15 @@
           this.$router.push({path: '/mobile/stage1'})
         }
       },
-      showTips() {
+      showTips(path) {
         if (localStorage.getItem(ENABLE) === '1') {
-          this.$notify({type: 'warning', message: '该阶段暂未开放，敬请期待'});
+          if (path === '/mobile/evaluate') {
+            this.$router.push({
+              path: path
+            })
+          } else {
+            this.$notify({type: 'warning', message: '该阶段暂未开放，敬请期待'});
+          }
         } else {
           this.$notify({type: 'danger', message: '该账户尚未激活，请联系管理员'});
         }

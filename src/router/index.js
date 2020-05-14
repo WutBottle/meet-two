@@ -22,7 +22,7 @@ const MStagePage = r => require.ensure([], () => r(require('@components/Mobile/S
 const MFirstPage = r => require.ensure([], () => r(require('@components/Mobile/FirstPage/FirstPage')));
 const MAdminPage = r => require.ensure([], () => r(require('@components/Mobile/AdminPage/AdminPage')));
 const MTestPage = r => require.ensure([], () => r(require('@components/Mobile/TestPage/TestPage')));
-
+const MEvaluatePage = r => require.ensure([], () => r(require('@components/Mobile/EvaluatePage/EvaluatePage')));
 const Page404 = r => require.ensure([], () => r(require('@components/Page404/Page404')));
 
 /* 一级二级路由配置示例 */
@@ -73,6 +73,10 @@ export default new Router({
         path: 'test',
         name: 'MTest',
         component: MTestPage,
+      }, {
+        path: 'evaluate',
+        name: 'MEvaluatePage',
+        component: MEvaluatePage,
       }],
     },
     {
