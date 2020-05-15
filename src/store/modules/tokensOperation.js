@@ -56,7 +56,7 @@ const actions = {
   login({dispatch, commit, rootState}, params) {
     return new Promise((resolve, reject) => {
       api.tokensController.loginUser(params).then(res => {
-        res && commit('authSuccess', res.data.data);
+        res.data.data && commit('authSuccess', res.data.data);
         resolve(res);
       }).catch(error => {
         commit('authError');
