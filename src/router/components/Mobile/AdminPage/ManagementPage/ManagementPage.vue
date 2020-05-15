@@ -99,23 +99,27 @@
           pageNum: this.pagingOption.pageNum,
           pageLimit: this.pagingOption.pageLimit,
         }).then(res => {
-          if (res.data.data && res.data.meta.success){
-            this.pagingOption.totalNum = res.data.data.totalElements;
-            if (!this.searchValue) {
-              this.pagingOption.badge = res.data.data.totalElements;
-            }
-            res.data.data.content.map(item => {
-              this.list.push(item)
-            });
-            if (this.list.length >= this.pagingOption.totalNum) {
-              this.finished = true;
+          if (res) {
+            if (res.data.data && res.data.meta.success) {
+              this.pagingOption.totalNum = res.data.data.totalElements;
+              if (!this.searchValue) {
+                this.pagingOption.badge = res.data.data.totalElements;
+              }
+              res.data.data.content.map(item => {
+                this.list.push(item)
+              });
+              if (this.list.length >= this.pagingOption.totalNum) {
+                this.finished = true;
+              } else {
+                this.pagingOption.pageNum++;
+                this.finished = false;
+              }
+              this.loading = false;
             } else {
-              this.pagingOption.pageNum++;
-              this.finished = false;
+              this.$notify({type: 'danger', message: res.data.meta.message});
             }
-            this.loading = false;
           } else {
-            this.$notify({type: 'danger', message: res.data.meta.message});
+            this.$notify({type: 'danger', message: '网络超时'});
           }
         });
 

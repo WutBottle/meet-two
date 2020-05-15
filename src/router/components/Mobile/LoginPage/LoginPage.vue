@@ -166,15 +166,19 @@
           username: values.username,
           password: values.password,
         }).then(res => {
-          if (res && res.data.meta.success) {
-            this.$notify({type: 'success', message: '登录成功'});
-            if (res.data.data.role === '管理员') {
-              this.$router.push({path: '/mobile/admin'})
-            }else {
-              this.$router.push({path: '/mobile/stage'})
+          if (res) {
+            if (res.data.data && res.data.meta.success) {
+              this.$notify({type: 'success', message: '登录成功'});
+              if (res.data.data.role === '管理员') {
+                this.$router.push({path: '/mobile/admin'})
+              }else {
+                this.$router.push({path: '/mobile/stage'})
+              }
+            } else {
+              this.$notify({type: 'warning', message: res.data.meta.message});
             }
           } else {
-            this.$notify({type: 'warning', message: res.data.meta.message});
+            this.$notify({type: 'warning', message: '网络超时'});
           }
         });
       },
@@ -187,11 +191,15 @@
           password: values.password,
           identityImg: this.fileName,
         }).then(res => {
-          if (res && res.data.meta.success) {
-            this.$notify({type: 'success', message: '注册成功，请登录！'});
-            this.paneKey = 'login';
+          if (res) {
+            if (res.data.data && res.data.meta.success) {
+              this.$notify({type: 'success', message: '注册成功，请登录！'});
+              this.paneKey = 'login';
+            }else {
+              this.$notify({type: 'warning', message: res.data.meta.message});
+            }
           } else {
-            this.$notify({type: 'warning', message: res.data.meta.message});
+            this.$notify({type: 'warning', message: '网络超时'});
           }
         });
       },
