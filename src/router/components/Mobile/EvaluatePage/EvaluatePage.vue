@@ -3,10 +3,11 @@
     .card-wrapper {
       height: calc(100vh - 46px);
       overflow: auto;
+      background-color: #e8e8e8;
     }
 
     .button-wrapper {
-      padding: 0 20px 20px 20px;
+      padding: 0 20px 10px 20px;
       display: flex;
       position: fixed;
       width: 100%;
@@ -97,6 +98,7 @@
               this.personalData.hobby = res.data.data.hobby && res.data.data.hobby.split(',');
               this.visible = true;
             } else {
+              this.personalData = {};
               this.$notify({type: 'warning', message: '已无更多候选人!'});
             }
           } else {

@@ -190,7 +190,7 @@
 
 <script>
   import PersonalCard from "@components/Pc/PersonalCard/PersonalCard";
-  // import * as moment from 'moment';
+  import * as moment from 'moment';
   import lrz from 'lrz';
   import base64ToFile from '@common/js/base64ToFile';
   import api from '@api/apiSugar';

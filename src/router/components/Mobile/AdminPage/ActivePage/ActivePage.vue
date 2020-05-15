@@ -78,7 +78,7 @@
         pagingOption: state => state.userOperation.pagingOption,
       })
     },
-    mounted() {
+    activated() {
       this.pagingOption.pageNum = 1;
     },
     methods: {

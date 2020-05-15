@@ -192,6 +192,8 @@
             if (showCard) {
               this.cardShow = true;
             }
+          }else {
+            this.$notify({type: 'error', message: '网络错误'});
           }
         })
       },
@@ -241,6 +243,8 @@
           } else {
             this.$notify({type: 'error', message: res.data.meta.message});
           }
+        }).catch(() => {
+          this.$notify({type: 'error', message: '网络超时'});
         })
       },
       onClickLeft() {

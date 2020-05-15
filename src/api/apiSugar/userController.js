@@ -35,6 +35,12 @@ const userController = {
   love(params){
     return axios.post(`${baseUrl.userController}/love`, params);
   },
+  getUserListByNameLike(params){
+    return axios.post(`${baseUrl.userController}/getUserListByNameLike`, params);
+  },
+  deleteUser(params){
+    return axios.post(`${baseUrl.userController}/deleteUser`, params);
+  },
 };
 
 export default userController;
