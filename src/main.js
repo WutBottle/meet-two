@@ -7,7 +7,7 @@ import router from './router'
 import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css';
 Vue.use(Antd);
-
+//
 import Vant from 'vant';
 import 'vant/lib/index.css';
 Vue.use(Vant);

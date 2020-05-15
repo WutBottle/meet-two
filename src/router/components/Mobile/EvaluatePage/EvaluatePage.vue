@@ -70,7 +70,7 @@
     methods: {
       handleLike(index) {
         this.isLike = index;
-        Object.keys(personalData).length && api.userController.love({
+        Object.keys(this.personalData).length && api.userController.love({
           userId: this.personalData.userId,
           love: index
         }).then(res => {

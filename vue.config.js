@@ -5,12 +5,21 @@ const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 
 const cdn = {
   js: [
-    "//cdn.jsdelivr.net/npm/vue@2.6.11",
-    "//cdn.bootcdn.net/ajax/libs/vue-router/3.1.3/vue-router.min.js",
-    "//cdn.bootcdn.net/ajax/libs/vuex/3.2.0/vuex.min.js",
-    "//cdn.bootcdn.net/ajax/libs/axios/0.19.1/axios.min.js",
-  ]
-}
+    "https://cdn.bootcdn.net/ajax/libs/moment.js/2.24.0/moment.min.js",
+    "https://cdn.bootcdn.net/ajax/libs/moment.js/2.24.0/locale/zh-cn.js",
+    "https://cdn.bootcdn.net/ajax/libs/vue/2.6.10/vue.min.js",
+    "https://cdn.bootcdn.net/ajax/libs/vue-router/3.1.3/vue-router.min.js",
+    "https://cdn.bootcdn.net/ajax/libs/vuex/3.2.0/vuex.min.js",
+    "https://cdn.bootcdn.net/ajax/libs/axios/0.19.1/axios.min.js",
+    "https://cdn.jsdelivr.net/npm/ant-design-vue@1.5.3/dist/antd.min.js",
+    "https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js",
+    "https://cdn.jsdelivr.net/npm/ant-design-vue@1.5.3/dist/antd-with-locales.js",
+  ],
+  css: [
+    "https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css",
+    "https://cdn.jsdelivr.net/npm/ant-design-vue@1.5.3/dist/antd.min.css"
+  ],
+};
 
 module.exports = {
 
@@ -42,12 +51,15 @@ module.exports = {
   },
 
   configureWebpack: {
-    // externals : {
-    //   vue: "Vue",
-    //   "vue-router": "VueRouter",
-    //   vuex: "Vuex",
-    //   axios: "axios",
-    // },
+    externals : {
+      // vue: "Vue",
+      // moment: 'moment',
+      // "vue-router": "VueRouter",
+      // vuex: "Vuex",
+      // axios: "axios",
+      // "ant-design-vue": "Antd",
+      // vant: "Vant",
+    },
     performance: {
       hints: false
     }

@@ -71,7 +71,7 @@
 
 <script>
   import api from '@api/apiSugar';
-  import moment from 'moment';
+  // import * as moment from 'moment';
 
   const color = ['#7232dd', '#f2826a', '#ff361e', '#fa5a5a',
     '#f17db1', '#ffcb05', '#42dc84', '#02b8e2', '#a6ce39', '#0080ff'];
