@@ -127,6 +127,8 @@
               this.$router.push({
                 path: '/mobile/evaluate'
               });
+            } else {
+              this.$notify({type: 'danger', message: '该账户尚未激活，请联系管理员'});
             }
             this.enableSet(res.data.data.enable);
           }

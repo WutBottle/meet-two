@@ -182,6 +182,7 @@
         api.userController.getUserData().then(res => {
           if (res) {
             this.personalData = res.data.data;
+            this.personalData.introduction = this.personalData.introduction || '';
             this.personalData.hobby = res.data.data.hobby ? res.data.data.hobby.split(',') : [];
             this.personalData.bornDate = this.personalData.bornDate && new Date(this.personalData.bornDate);
             this.bornDate = res.data.data.bornDate && moment(res.data.data.bornDate).format('YYYY-MM-DD');
