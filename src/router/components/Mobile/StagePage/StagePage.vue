@@ -62,7 +62,7 @@
         人的一生，除了要面对无常带来的跌宕，还有贯穿在其中的平淡和琐碎。
       </div>
     </div>
-    <div class="list-style" @click="showTips('/mobile/evaluate')">
+    <div class="list-style" @click="jumpToStage2">
       <div class="title-wrapper">
         <van-icon class="icon-wrapper" :name="logo2" size="46"/>
         倾心互评
@@ -94,6 +94,8 @@
 
 <script>
   import {ENABLE, ANSWER} from '@store/mutation-types';
+  import {mapMutations} from 'vuex';
+  import api from '@api/apiSugar';
 
   export default {
     name: "StagePage",
@@ -106,6 +108,9 @@
       }
     },
     methods: {
+      ...mapMutations({
+        enableSet: 'tokensOperation/enableSet'
+      }),
       jumpToStage1() {
         if (localStorage.getItem(ANSWER) === 'null') {
           this.$router.push({
@@ -115,15 +120,21 @@
           this.$router.push({path: '/mobile/stage1'})
         }
       },
-      showTips(path) {
-        if (localStorage.getItem(ENABLE) === '1') {
-          if (path === '/mobile/evaluate') {
-            this.$router.push({
-              path: path
-            })
-          } else {
-            this.$notify({type: 'warning', message: '该阶段暂未开放，敬请期待'});
+      jumpToStage2() {
+        api.userController.getUserData().then(res => {
+          if (res && res.data.data) {
+            if (res.data.data.enable === 1) {
+              this.$router.push({
+                path: '/mobile/evaluate'
+              });
+            }
+            this.enableSet(res.data.data.enable);
           }
+        });
+      },
+      showTips() {
+        if (localStorage.getItem(ENABLE) === '1') {
+          this.$notify({type: 'warning', message: '该阶段暂未开放，敬请期待'});
         } else {
           this.$notify({type: 'danger', message: '该账户尚未激活，请联系管理员'});
         }

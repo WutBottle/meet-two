@@ -49,6 +49,10 @@ const mutations = {
   answerSet(state, data) {
     state.answer = data;
     localStorage.setItem(ANSWER, data);
+  },
+  enableSet(state, data) {
+    state.enable = data;
+    localStorage.setItem(ENABLE, data);
   }
 };
 

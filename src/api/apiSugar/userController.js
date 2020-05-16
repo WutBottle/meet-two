@@ -41,6 +41,12 @@ const userController = {
   deleteUser(params){
     return axios.post(`${baseUrl.userController}/deleteUser`, params);
   },
+  getLove(params){
+    return axios.post(`${baseUrl.userController}/getLove`, params);
+  },
+  getBeLove(params){
+    return axios.post(`${baseUrl.userController}/getBeLove`, params);
+  },
 };
 
 export default userController;

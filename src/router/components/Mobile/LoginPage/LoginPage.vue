@@ -7,7 +7,21 @@
       text-align: center;
       font-family: 'AJC';
       font-size: 40px;
-      padding: 10px 0 50px 0;
+      padding: 10px 0 40px 0;
+    }
+
+    .tips {
+      margin: 20px 0 0;
+      padding: 16px;
+      color: rgba(52, 73, 94, 0.8);
+      font-weight: 500;
+      font-size: 14px;
+      background-color: #ecf9ff;
+      border-radius: 12px;
+
+      p {
+        margin: 0;
+      }
     }
 
     .logo-wrapper {
@@ -45,6 +59,9 @@
             </van-button>
           </div>
         </van-form>
+        <blockquote class="tips">
+          <p>Tips: 本次活动涉及的个人信息会严格保密，如有问题请加qq群：1071506342，联系群管理员！</p>
+        </blockquote>
       </van-tab>
       <van-tab title="注册" name="register">
         <van-form @submit="onSubmitRegister">
@@ -98,7 +115,7 @@
           <van-field
                   required
                   :rules="[{ required: true, message: '请上传学生证或校园卡正面!' }]"
-                  label="证明材料"
+                  label="认证图片"
           >
             <template #input>
               <van-uploader multiple :max-count="1" :before-read="beforeRead" v-model="imgFileList" />
@@ -110,6 +127,9 @@
             </van-button>
           </div>
         </van-form>
+        <blockquote class="tips">
+          <p>Tips: 为了方便快速通过审核，找到你心动的那个ta，可不要调皮哦，请如实填写信息并上传校园卡或学生证正面照一张！</p>
+        </blockquote>
       </van-tab>
     </van-tabs>
     <van-grid class="logo-wrapper" :border="false" :column-num="3">

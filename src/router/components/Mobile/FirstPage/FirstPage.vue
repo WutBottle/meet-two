@@ -108,7 +108,9 @@
                 rows="4"
                 label="自我介绍"
                 placeholder="请输入自我介绍"
-                :rules="[{ required: true, message: '请输入自我介绍!' }]"
+                maxlength="220"
+                show-word-limit
+                :rules="[{ required: true, message: '请输入自我介绍!' , maxLength: 20}]"
         />
         <van-field
                 required
@@ -152,7 +154,9 @@
       return {
         male: require('@assets/male.png'),
         female: require('@assets/female.png'),
-        personalData: {},
+        personalData: {
+          introduction: ''
+        },
         bornDate: '', // 出生日期
         showPicker: false,
         collegeOptions: college,
@@ -164,6 +168,7 @@
         fileName: '',
         cardShow: false,
         imgLoading: false,
+        test: ''
       }
     },
     mounted() {

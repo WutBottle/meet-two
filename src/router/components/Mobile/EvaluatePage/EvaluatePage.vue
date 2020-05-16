@@ -17,6 +17,21 @@
         display: flex;
       }
     }
+
+    .list-wrapper {
+      position: fixed;
+      top: 350px;
+      right: 12px;
+      width: 70px;
+      height: 100px;
+      border-radius: 12px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 6px 0 rgb(255, 172, 155), 0 9px 25px rgba(0,0,0,.7);
+      background: #ee6797;
+      background:linear-gradient(to right,#ee6797 0%, #ffe140 80%, #ffe241 100%);
+      padding-top: 20px;
+    }
   }
 </style>
 
@@ -42,6 +57,17 @@
                   color="linear-gradient(to right, #40399e, #7a93ee)" @click="handleLike(false)">不喜欢
       </van-button>
     </div>
+    <div class="list-wrapper" @click="showHeartList">
+      <div>心动列表</div>
+      <van-image
+              style="margin-top: -10px"
+              round
+              width="60px"
+              height="60px"
+              fit="cover"
+              :src="heartBeat"
+      />
+    </div>
   </div>
 </template>
 
@@ -61,13 +87,13 @@
         isLike: null,
         cardData: [1, 2, 3, 4, 5],
         dislike: require('@assets/dislike.png'),
+        heartBeat: require('@assets/heartBeat.png'),
         personalData: {},
       }
     },
     mounted() {
       this.getMatchUser();
     },
-
     methods: {
       handleLike(index) {
         this.isLike = index;
@@ -106,6 +132,11 @@
           }
         })
       },
+      showHeartList() {
+        this.$router.push({
+          path: '/mobile/likeList'
+        });
+      }
     }
   }
 </script>

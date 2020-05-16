@@ -13,7 +13,7 @@
 <template>
   <div class="TestPage">
     <van-notice-bar left-icon="info-o" :scrollable="true">
-      一共24题，您只要下意识选出答案即可，你的每一个选择都会影响到最终的匹配结果。
+      一共18题，您只要下意识选出答案即可，你的每一个选择都会影响到最终的匹配结果。
     </van-notice-bar>
     <van-collapse v-model="activeNames" accordion>
       <van-collapse-item name="1">
@@ -79,16 +79,16 @@
       </van-collapse-item>
       <van-collapse-item name="5">
         <template #title>
-          <div>5.你觉得有共同爱好对两个人重要吗?
+          <div>5.你觉得有共同爱好对两个人今后相处重要吗?
             <van-tag class="status-style" :type="radio[4] ? 'success' : 'danger'">{{radio[4] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
         <van-radio-group v-model="radio[4]">
-          <van-radio class="radio-style" name="a">完全不符合</van-radio>
-          <van-radio class="radio-style" name="b">不太符合</van-radio>
+          <van-radio class="radio-style" name="a">完全不重要</van-radio>
+          <van-radio class="radio-style" name="b">不太重要</van-radio>
           <van-radio class="radio-style" name="c">中立</van-radio>
-          <van-radio class="radio-style" name="d">较为符合</van-radio>
-          <van-radio class="radio-style" name="e">完全符合</van-radio>
+          <van-radio class="radio-style" name="d">比较重要</van-radio>
+          <van-radio class="radio-style" name="e">十分重要</van-radio>
         </van-radio-group>
       </van-collapse-item>
       <van-collapse-item name="6">
@@ -116,62 +116,37 @@
       </van-collapse-item>
       <van-collapse-item name="8">
         <template #title>
-          <div>8.希望对方更偏向理性还是感性?
+          <div>8.认为自己在长相上更有优势还是内涵上更有优势?
             <van-tag class="status-style" :type="radio[7] ? 'success' : 'danger'">{{radio[7] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
         <van-radio-group v-model="radio[7]">
-          <van-radio class="radio-style" name="a">理性偏多</van-radio>
-          <van-radio class="radio-style" name="b">感性偏多</van-radio>
-          <van-radio class="radio-style" name="c">中间状态</van-radio>
+          <van-radio class="radio-style" name="a">长相</van-radio>
+          <van-radio class="radio-style" name="b">内涵</van-radio>
+          <van-radio class="radio-style" name="c">都有</van-radio>
+          <van-radio class="radio-style" name="d">都一般</van-radio>
         </van-radio-group>
       </van-collapse-item>
       <van-collapse-item name="9">
         <template #title>
-          <div>9.认为自己在长相上更有优势还是内涵上更有优势?
+          <div>9.下面的恋爱状态中，你更喜欢——
             <van-tag class="status-style" :type="radio[8] ? 'success' : 'danger'">{{radio[8] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
         <van-radio-group v-model="radio[8]">
-          <van-radio class="radio-style" name="a">长相</van-radio>
-          <van-radio class="radio-style" name="b">内涵</van-radio>
-          <van-radio class="radio-style" name="c">都有</van-radio>
-          <van-radio class="radio-style" name="d">都一般</van-radio>
-        </van-radio-group>
-      </van-collapse-item>
-      <van-collapse-item name="10">
-        <template #title>
-          <div>10.更期待对方的长相还是内涵?
-            <van-tag class="status-style" :type="radio[9] ? 'success' : 'danger'">{{radio[9] ? '完成' : '未完成'}}</van-tag>
-          </div>
-        </template>
-        <van-radio-group v-model="radio[9]">
-          <van-radio class="radio-style" name="a">长相</van-radio>
-          <van-radio class="radio-style" name="b">内涵</van-radio>
-          <van-radio class="radio-style" name="c">都有</van-radio>
-          <van-radio class="radio-style" name="d">都一般</van-radio>
-        </van-radio-group>
-      </van-collapse-item>
-      <van-collapse-item name="11">
-        <template #title>
-          <div>11.下面的恋爱状态中，你更喜欢——
-            <van-tag class="status-style" :type="radio[10] ? 'success' : 'danger'">{{radio[10] ? '完成' : '未完成'}}</van-tag>
-          </div>
-        </template>
-        <van-radio-group v-model="radio[10]">
           <van-radio class="radio-style" name="a">与ta一起去吃喝，逛逛热闹的地方</van-radio>
           <van-radio class="radio-style" name="b">与ta在家里一起做简单的事情，比如看电影，做饭，打游戏</van-radio>
           <van-radio class="radio-style" name="c">与ta一起出去运动、远足</van-radio>
           <van-radio class="radio-style" name="d">与ta一起到处体验生活</van-radio>
         </van-radio-group>
       </van-collapse-item>
-      <van-collapse-item name="12">
+      <van-collapse-item name="10">
         <template #title>
-          <div>12.你希望能够多参与ta的交友圈吗?
-            <van-tag class="status-style" :type="radio[11] ? 'success' : 'danger'">{{radio[11] ? '完成' : '未完成'}}</van-tag>
+          <div>10.你希望ta能够多参与你的交友圈吗?
+            <van-tag class="status-style" :type="radio[9] ? 'success' : 'danger'">{{radio[9] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
-        <van-radio-group v-model="radio[11]">
+        <van-radio-group v-model="radio[9]">
           <van-radio class="radio-style" name="a">完全不希望</van-radio>
           <van-radio class="radio-style" name="b">不太想强求</van-radio>
           <van-radio class="radio-style" name="c">中立，无所谓，看对方意愿</van-radio>
@@ -179,27 +154,13 @@
           <van-radio class="radio-style" name="e">一定要参与</van-radio>
         </van-radio-group>
       </van-collapse-item>
-      <van-collapse-item name="13">
+      <van-collapse-item name="11">
         <template #title>
-          <div>13.你希望ta能够多参与你的交友圈吗?
-            <van-tag class="status-style" :type="radio[12] ? 'success' : 'danger'">{{radio[12] ? '完成' : '未完成'}}</van-tag>
+          <div>11.希望对方回复自己消息的频率?
+            <van-tag class="status-style" :type="radio[10] ? 'success' : 'danger'">{{radio[10] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
-        <van-radio-group v-model="radio[12]">
-          <van-radio class="radio-style" name="a">完全不希望</van-radio>
-          <van-radio class="radio-style" name="b">不太想强求</van-radio>
-          <van-radio class="radio-style" name="c">中立，无所谓，看对方意愿</van-radio>
-          <van-radio class="radio-style" name="d">比较希望参与</van-radio>
-          <van-radio class="radio-style" name="e">一定要参与</van-radio>
-        </van-radio-group>
-      </van-collapse-item>
-      <van-collapse-item name="14">
-        <template #title>
-          <div>14.希望对方回复自己消息的频率?
-            <van-tag class="status-style" :type="radio[13] ? 'success' : 'danger'">{{radio[13] ? '完成' : '未完成'}}</van-tag>
-          </div>
-        </template>
-        <van-radio-group v-model="radio[13]">
+        <van-radio-group v-model="radio[10]">
           <van-radio class="radio-style" name="a">看到之后就应该立刻回复</van-radio>
           <van-radio class="radio-style" name="b">中立，无所谓，看对方意愿</van-radio>
           <van-radio class="radio-style" name="c">没特殊要求，找到时间回复就好</van-radio>
@@ -207,126 +168,89 @@
           <van-radio class="radio-style" name="e">不管多久都可以，能理解</van-radio>
         </van-radio-group>
       </van-collapse-item>
-      <van-collapse-item name="15">
+      <van-collapse-item name="12">
         <template #title>
-          <div>15.如果你俩不能每天见面，你习惯于联系他或她的频率?
-            <van-tag class="status-style" :type="radio[14] ? 'success' : 'danger'">{{radio[14] ? '完成' : '未完成'}}</van-tag>
+          <div>12.如果你俩不能每天见面，希望对方联系自己的频率是?
+            <van-tag class="status-style" :type="radio[11] ? 'success' : 'danger'">{{radio[11] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
-        <van-radio-group v-model="radio[14]">
-          <van-radio class="radio-style" name="a">每天多次，随时告诉对方自己的动态</van-radio>
-          <van-radio class="radio-style" name="b">每天定点一次</van-radio>
-          <van-radio class="radio-style" name="c">至少会说晚安、早安</van-radio>
-          <van-radio class="radio-style" name="d">不会成为主动联系的一方</van-radio>
-        </van-radio-group>
-      </van-collapse-item>
-      <van-collapse-item name="16">
-        <template #title>
-          <div>16.如果你俩不能每天见面，希望对方联系自己的频率是?
-            <van-tag class="status-style" :type="radio[15] ? 'success' : 'danger'">{{radio[15] ? '完成' : '未完成'}}</van-tag>
-          </div>
-        </template>
-        <van-radio-group v-model="radio[15]">
+        <van-radio-group v-model="radio[11]">
           <van-radio class="radio-style" name="a">每天多次，随时要知道对方的动态</van-radio>
           <van-radio class="radio-style" name="b">每天定点一次</van-radio>
           <van-radio class="radio-style" name="c">至少要有晚安、早安</van-radio>
           <van-radio class="radio-style" name="d">不一定，忙的时候可以不联系</van-radio>
         </van-radio-group>
       </van-collapse-item>
-      <van-collapse-item name="17">
+      <van-collapse-item name="13">
         <template #title>
-          <div>17.介意对方想要登陆或是查看自己的通讯录，QQ，微信，短信来电等吗?
-            <van-tag class="status-style" :type="radio[16] ? 'success' : 'danger'">{{radio[16] ? '完成' : '未完成'}}</van-tag>
+          <div>13.介意对方想要登陆或是查看自己的通讯录，QQ，微信，短信来电等吗?
+            <van-tag class="status-style" :type="radio[12] ? 'success' : 'danger'">{{radio[12] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
-        <van-radio-group v-model="radio[16]">
+        <van-radio-group v-model="radio[12]">
           <van-radio class="radio-style" name="a">可以看的，这是彼此取得信任的方式</van-radio>
           <van-radio class="radio-style" name="b">比较介意，但也会同意</van-radio>
           <van-radio class="radio-style" name="c">无所谓，看对方意愿</van-radio>
           <van-radio class="radio-style" name="d">介意，双方应该有自己的隐私</van-radio>
         </van-radio-group>
       </van-collapse-item>
-      <van-collapse-item name="18">
+      <van-collapse-item name="14">
         <template #title>
-          <div>18.对另一半有多个蓝/红颜持什么态度?
-            <van-tag class="status-style" :type="radio[17] ? 'success' : 'danger'">{{radio[17] ? '完成' : '未完成'}}</van-tag>
+          <div>14.对另一半有多个蓝/红颜持什么态度?
+            <van-tag class="status-style" :type="radio[13] ? 'success' : 'danger'">{{radio[13] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
-        <van-radio-group v-model="radio[17]">
+        <van-radio-group v-model="radio[13]">
           <van-radio class="radio-style" name="a">完全不在乎</van-radio>
           <van-radio class="radio-style" name="b">有些介意</van-radio>
           <van-radio class="radio-style" name="c">只要不太亲密没关系</van-radio>
           <van-radio class="radio-style" name="d">最好保持一定距离</van-radio>
         </van-radio-group>
       </van-collapse-item>
-      <van-collapse-item name="19">
+      <van-collapse-item name="15">
         <template #title>
-          <div>19.如果你有恋人，你希望你们的相处方式是?
-            <van-tag class="status-style" :type="radio[18] ? 'success' : 'danger'">{{radio[18] ? '完成' : '未完成'}}</van-tag>
+          <div>15.如果你有恋人，你希望你们的相处方式是?
+            <van-tag class="status-style" :type="radio[14] ? 'success' : 'danger'">{{radio[14] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
-        <van-radio-group v-model="radio[18]">
+        <van-radio-group v-model="radio[14]">
           <van-radio class="radio-style" name="a">朝夕相处，无话不说</van-radio>
           <van-radio class="radio-style" name="b">分享些小秘密和隐私</van-radio>
           <van-radio class="radio-style" name="c">双独立人格，偶尔交流，保留私人空间</van-radio>
         </van-radio-group>
       </van-collapse-item>
-      <van-collapse-item name="20">
+      <van-collapse-item name="16">
         <template #title>
-          <div>20.是否希望对方为了你学新东西、了解新的领域?
-            <van-tag class="status-style" :type="radio[19] ? 'success' : 'danger'">{{radio[19] ? '完成' : '未完成'}}</van-tag>
+          <div>16.愿意听对方跟你谈自己生活、学习、工作上的繁杂琐事吗?
+            <van-tag class="status-style" :type="radio[15] ? 'success' : 'danger'">{{radio[15] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
-        <van-radio-group v-model="radio[19]">
-          <van-radio class="radio-style" name="a">很希望，希望对方能培养共同的兴趣爱好</van-radio>
-          <van-radio class="radio-style" name="b">看ta自己的意愿，不强求</van-radio>
-          <van-radio class="radio-style" name="c">不需要，保持ta自己就好</van-radio>
-        </van-radio-group>
-      </van-collapse-item>
-      <van-collapse-item name="21">
-        <template #title>
-          <div>21.会和对方谈自己生活、学习、工作上的繁杂琐事吗?
-            <van-tag class="status-style" :type="radio[20] ? 'success' : 'danger'">{{radio[20] ? '完成' : '未完成'}}</van-tag>
-          </div>
-        </template>
-        <van-radio-group v-model="radio[20]">
-          <van-radio class="radio-style" name="a">会的，好的坏的都要跟ta分享</van-radio>
-          <van-radio class="radio-style" name="b">看情况，报喜不报忧</van-radio>
-          <van-radio class="radio-style" name="c">感觉是自己的事情，不太会去分享</van-radio>
-        </van-radio-group>
-      </van-collapse-item>
-      <van-collapse-item name="22">
-        <template #title>
-          <div>22.愿意听对方跟你谈自己生活、学习、工作上的繁杂琐事吗?
-            <van-tag class="status-style" :type="radio[21] ? 'success' : 'danger'">{{radio[21] ? '完成' : '未完成'}}</van-tag>
-          </div>
-        </template>
-        <van-radio-group v-model="radio[21]">
+        <van-radio-group v-model="radio[15]">
           <van-radio class="radio-style" name="a">愿意</van-radio>
           <van-radio class="radio-style" name="b">看心情</van-radio>
           <van-radio class="radio-style" name="c">都是一些琐事，不是很喜欢听</van-radio>
         </van-radio-group>
       </van-collapse-item>
-      <van-collapse-item name="23">
+      <van-collapse-item name="17">
         <template #title>
-          <div>23.更喜欢什么样的相处方式?
-            <van-tag class="status-style" :type="radio[22] ? 'success' : 'danger'">{{radio[22] ? '完成' : '未完成'}}</van-tag>
+          <div>17.更喜欢什么样的相处方式?
+            <van-tag class="status-style" :type="radio[16] ? 'success' : 'danger'">{{radio[16] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
-        <van-radio-group v-model="radio[22]">
+        <van-radio-group v-model="radio[16]">
           <van-radio class="radio-style" name="a">佛系交流，柏拉图式</van-radio>
           <van-radio class="radio-style" name="b">热情相处，永不分离</van-radio>
           <van-radio class="radio-style" name="c">相爱相杀，敢爱敢恨</van-radio>
           <van-radio class="radio-style" name="d">悠然自得，平淡是真</van-radio>
         </van-radio-group>
       </van-collapse-item>
-      <van-collapse-item name="24">
+      <van-collapse-item name="18">
         <template #title>
-          <div>24.你眼中的爱情是怎样的?
-            <van-tag class="status-style" :type="radio[23] ? 'success' : 'danger'">{{radio[23] ? '完成' : '未完成'}}</van-tag>
+          <div>18.你眼中的爱情是怎样的?
+            <van-tag class="status-style" :type="radio[17] ? 'success' : 'danger'">{{radio[17] ? '完成' : '未完成'}}</van-tag>
           </div>
         </template>
-        <van-radio-group v-model="radio[23]">
+        <van-radio-group v-model="radio[17]">
           <van-radio class="radio-style" name="a">与其在悬崖上展览千年不如在爱人肩头痛哭一晚</van-radio>
           <van-radio class="radio-style" name="b">情到浓时起致辞，可能长作玉交枝。除非死后当分散，不遣生前有别离</van-radio>
           <van-radio class="radio-style" name="c">缘起即灭，缘生已空。我也曾如你般天真</van-radio>
@@ -347,7 +271,7 @@
     data() {
       return {
         activeNames: ['1'],
-        radio: ['', '', '', '', '','', '', '', '', '','', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+        radio: ['', '', '', '', '','', '', '', '', '','', '', '', '', '', '', '', ''],
       }
     },
     methods: {
