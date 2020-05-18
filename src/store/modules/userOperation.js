@@ -11,6 +11,11 @@ const state = {
     totalNum: null,
     badge: null,
   },
+  usersPagingOption: {
+    pageNum: 1,
+    pageLimit: 6,
+    totalNum: null,
+  },
 };
 
 const mutations = {

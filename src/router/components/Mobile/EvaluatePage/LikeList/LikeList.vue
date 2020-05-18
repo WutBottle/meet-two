@@ -118,7 +118,7 @@
       },
       onRefresh() {
         this.refreshing = true;
-        this.getLove();
+        this.checked ? this.getBeLove() : this.getLove();
       },
       showCard(index) {
         let tempData = JSON.parse(JSON.stringify(this.list[index]));

@@ -19,7 +19,7 @@
     </div>
     <van-tabbar v-model="currentTabComponent">
       <van-tabbar-item name="ActivePage" icon="friends" :badge="pagingOption.badge">激活审核</van-tabbar-item>
-      <van-tabbar-item name="ManagementPage" icon="fire">用户管理</van-tabbar-item>
+      <van-tabbar-item name="ManagementPage" icon="fire" :badge="usersPagingOption.totalNum">用户管理</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -42,6 +42,7 @@
     computed: {
       ...mapState({
         pagingOption: state => state.userOperation.pagingOption,
+        usersPagingOption: state => state.userOperation.usersPagingOption,
       })
     },
      methods: {

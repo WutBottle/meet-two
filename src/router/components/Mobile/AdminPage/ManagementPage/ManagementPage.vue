@@ -1,7 +1,7 @@
 <style scoped lang="scss">
   .ManagementPage {
     .list-wrapper {
-      height: calc(100vh - 150px);
+      height: calc(100vh - 200px);
       overflow-x: hidden;
       overflow-y: visible;
 
@@ -19,6 +19,9 @@
 
 <template>
   <div class="ManagementPage">
+    <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o">
+      目前男女人数占比为87:60
+    </van-notice-bar>
     <form action="/">
       <van-search
               v-model="searchValue"
@@ -55,6 +58,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex';
   import PersonalCard from "../../PersonalCard/PersonalCard";
   import api from '@api/apiSugar';
 
@@ -71,15 +75,15 @@
         finished: false,
         cardShow: false,
         personalData: {},
-        pagingOption: {
-          pageNum: 1,
-          pageLimit: 6,
-          totalNum: null,
-        },
       }
     },
     activated() {
       this.pagingOption.pageNum = 1;
+    },
+    computed: {
+      ...mapState({
+        pagingOption: state => state.userOperation.usersPagingOption,
+      }),
     },
     methods: {
       onSearch(val) {
