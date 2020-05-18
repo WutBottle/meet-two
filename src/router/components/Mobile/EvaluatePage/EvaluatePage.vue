@@ -51,10 +51,10 @@
     </div>
     <div class="button-wrapper">
       <van-button style="margin-right: 10px" type="primary" icon="like-o" round size="large"
-                  color="linear-gradient(to right, #ff5559, #ef7f94)" @click="handleLike(true)">喜欢
+                  color="linear-gradient(to right, #ff5559, #ef7f94)" @click="isLoading && handleLike(true)">喜欢
       </van-button>
       <van-button style="margin-left: 10px" type="primary" :icon="dislike" round size="large"
-                  color="linear-gradient(to right, #40399e, #7a93ee)" @click="handleLike(false)">不喜欢
+                  color="linear-gradient(to right, #40399e, #7a93ee)" @click="isLoading && handleLike(false)">不喜欢
       </van-button>
     </div>
     <div class="list-wrapper" @click="showHeartList">
@@ -89,6 +89,7 @@
         dislike: require('@assets/dislike.png'),
         heartBeat: require('@assets/heartBeat.png'),
         personalData: {},
+        isLoading: true,
       }
     },
     mounted() {
@@ -96,6 +97,7 @@
     },
     methods: {
       handleLike(index) {
+        this.isLoading = false;
         this.isLike = index;
         Object.keys(this.personalData).length && api.userController.love({
           userId: this.personalData.userId,
@@ -113,7 +115,10 @@
             this.getMatchUser();
           } else {
             this.$notify({type: 'danger', message: '服务器错误!'});
+            this.isLoading = true;
           }
+        }).catch(() => {
+          this.isLoading = true;
         });
       },
       getMatchUser() {
@@ -127,6 +132,7 @@
               this.personalData = {};
               this.$notify({type: 'warning', message: '已无更多候选人!'});
             }
+            this.isLoading = true;
           } else {
             this.$notify({type: 'danger', message: '服务器错误!'});
           }

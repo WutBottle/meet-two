@@ -143,7 +143,6 @@
           }).then(res => {
             if (res) {
               if (res.data.data && res.data.meta.success) {
-                console.log(res)
                 this.$emit('handleClosePop');
                 this.$toast.success('已删除');
               } else {

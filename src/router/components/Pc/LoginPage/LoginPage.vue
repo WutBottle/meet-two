@@ -266,7 +266,6 @@
               this.$message.success('照片已上传');
               this.uploadSpinning = false;
             }).catch((error) => {
-              console.log(error)
               this.$message.error('上传失败');
               this.uploadSpinning = false;
             });

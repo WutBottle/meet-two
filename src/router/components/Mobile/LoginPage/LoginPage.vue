@@ -122,7 +122,7 @@
             </template>
           </van-field>
           <div style="margin: 16px;">
-            <van-button round block :loading="imgLoading" loading-text="图片上传中..." type="info" native-type="submit">
+            <van-button round block :disabled="imgLoading || isSubmit" :loading="imgLoading || isSubmit" loading-text="图片上传中..." type="info" native-type="submit">
               注册
             </van-button>
           </div>
@@ -174,6 +174,7 @@
         imgFileList: [],
         imgLoading: false,
         fileName: '',
+        isSubmit: false,
       }
     },
     methods: {
@@ -203,6 +204,7 @@
         });
       },
       onSubmitRegister(values) {
+        this.isSubmit = true;
         api.userController.registerUser({
           username: values.username,
           nickname: values.nickname,
@@ -221,6 +223,7 @@
           } else {
             this.$notify({type: 'warning', message: '网络超时'});
           }
+          this.isSubmit = false;
         });
       },
       beforeRead(file) {
@@ -234,18 +237,23 @@
               tempFileList.forEach((file) => {
                 formData.append('multipartFiles', file);
               });
-              api.userController.uploadAvatar(formData).then((data) => {
-                this.fileName = baseUrl.serverBaseController + data.data.data;
-                this.$notify({type: 'success', message: '照片已上传'});
-                this.imgLoading = false;
-                resolve(file);
+              api.userController.uploadAvatar(formData).then((res) => {
+                if (res && res.data.data) {
+                  this.fileName = baseUrl.serverBaseController + res.data.data;
+                  this.$notify({type: 'success', message: '照片已上传'});
+                  resolve(file);
+                  this.imgLoading = false;
+                }else {
+                  this.$notify({type: 'danger', message: '上传失败,请重新上传'});
+                  this.imgLoading = false;
+                }
               }).catch((error) => {
-                this.$notify({type: 'error', message: '上传失败'});
+                this.$notify({type: 'danger', message: '上传失败'});
                 reject();
               });
             }).catch(function (err) {
               // 处理失败会执行
-              this.$notify({type: 'error', message: '图片压缩失败'});
+              this.$notify({type: 'danger', message: '图片压缩失败'});
             });
           } else {
             this.$toast('请上传.jpg/.png/.jpeg格式图片');

@@ -290,7 +290,7 @@
               this.$notify({type: 'success', message: '恭喜你完成测评!'});
               this.$router.push('/mobile/stage1');
             } else {
-              this.$notify({type: 'error', message: '响应超时'});
+              this.$notify({type: 'danger', message: '响应超时'});
             }
           })
         }else {

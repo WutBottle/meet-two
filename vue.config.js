@@ -52,13 +52,13 @@ module.exports = {
 
   configureWebpack: {
     externals : {
-      // vue: "Vue",
-      // moment: 'moment',
-      // "vue-router": "VueRouter",
-      // vuex: "Vuex",
-      // axios: "axios",
-      // "ant-design-vue": "Antd",
-      // vant: "Vant",
+      vue: "Vue",
+      moment: 'moment',
+      "vue-router": "VueRouter",
+      vuex: "Vuex",
+      axios: "axios",
+      "ant-design-vue": "Antd",
+      vant: "Vant",
     },
     performance: {
       hints: false

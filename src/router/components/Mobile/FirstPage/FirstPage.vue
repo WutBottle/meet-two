@@ -122,7 +122,8 @@
           </template>
         </van-field>
         <div style="margin: 16px;">
-          <van-button round block :loading="imgLoading" loading-text="图片上传中..." type="info" native-type="submit">
+          <van-button round block :disabled="imgLoading || isSubmit" :loading="imgLoading || isSubmit" loading-text="图片上传中..." type="info"
+                      native-type="submit">
             生成档案
           </van-button>
         </div>
@@ -168,7 +169,8 @@
         fileName: '',
         cardShow: false,
         imgLoading: false,
-        test: ''
+        test: '',
+        isSubmit: false,
       }
     },
     mounted() {
@@ -198,8 +200,8 @@
             if (showCard) {
               this.cardShow = true;
             }
-          }else {
-            this.$notify({type: 'error', message: '网络错误'});
+          } else {
+            this.$notify({type: 'danger', message: '网络错误'});
           }
         })
       },
@@ -221,15 +223,15 @@
               api.userController.uploadAvatar(formData).then((data) => {
                 this.fileName = baseUrl.serverBaseController + data.data.data;
                 this.$notify({type: 'success', message: '照片已上传'});
-                this.imgLoading = false;
                 resolve(file);
+                this.imgLoading = false;
               }).catch((error) => {
-                this.$notify({type: 'error', message: '上传失败'});
+                this.$notify({type: 'danger', message: '上传失败'});
                 reject();
               });
             }).catch(function (err) {
               // 处理失败会执行
-              this.$notify({type: 'error', message: '图片压缩失败'});
+              this.$notify({type: 'danger', message: '图片压缩失败'});
             });
           } else {
             this.$toast('请上传.jpg/.png/.jpeg格式图片');
@@ -238,6 +240,7 @@
         });
       },
       onSubmit() {
+        this.isSubmit = true;
         let tempData = JSON.parse(JSON.stringify(this.personalData));
         tempData.hobby = tempData.hobby.join(',');
         tempData.userImg = this.fileName;
@@ -247,10 +250,11 @@
             this.$notify({type: 'success', message: '档案生成成功'});
             this.getPersonalData(true);
           } else {
-            this.$notify({type: 'error', message: res.data.meta.message});
+            this.$notify({type: 'danger', message: res.data.meta.message});
           }
+          this.isSubmit = false;
         }).catch(() => {
-          this.$notify({type: 'error', message: '网络超时'});
+          this.$notify({type: 'danger', message: '网络超时'});
         })
       },
       onClickLeft() {
