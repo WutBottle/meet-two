@@ -47,6 +47,12 @@ const userController = {
   getBeLove(params){
     return axios.post(`${baseUrl.userController}/getBeLove`, params);
   },
+  removeLove(params){
+    return axios.post(`${baseUrl.userController}/removeLove`, params);
+  },
+  resetPassword(params) {
+    return axios.post(`${baseUrl.userController}/resetPassword`, params);
+  }
 };
 
 export default userController;

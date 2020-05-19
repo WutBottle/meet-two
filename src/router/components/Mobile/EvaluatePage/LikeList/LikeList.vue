@@ -40,7 +40,7 @@
     </van-pull-refresh>
     <van-empty v-else description="详细的个人介绍才能更吸引人哦!" />
     <van-action-sheet v-model="cardShow" title="个人卡片">
-      <PersonalCard :cardData="personalData" @handleClosePop="handleClosePop"/>
+      <PersonalCard :cardData="personalData" @handleClosePop="handleClosePop" :isRemove="isRemove"/>
     </van-action-sheet>
   </div>
 </template>
@@ -62,6 +62,7 @@
         personalData: {},
         checked: false,
         changeLoading: false,
+        isRemove: true, // 是否有移除按钮
       }
     },
     mounted() {
@@ -69,6 +70,7 @@
     },
     methods: {
       getLove() {
+        this.isRemove = true;
         this.list = [];
         this.changeLoading = true;
         api.userController.getLove().then(res => {
@@ -90,6 +92,7 @@
         });
       },
       getBeLove() {
+        this.isRemove = false;
         this.list = [];
         this.changeLoading = true;
         api.userController.getBeLove().then(res => {
@@ -128,6 +131,7 @@
       },
       handleClosePop() {
         this.cardShow = false;
+        this.onRefresh();
       },
       handleChange(val) {
         if (val) {

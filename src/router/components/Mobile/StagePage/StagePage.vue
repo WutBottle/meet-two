@@ -34,13 +34,26 @@
         background-image: linear-gradient(to right, #FC3832, #F2C314);
       }
 
-      &:nth-of-type(4) {
+      &:nth-of-type(5) {
         background-image: linear-gradient(to right, #15EAFA, #FDF70F);
       }
 
-      &:nth-of-type(5) {
+      &:nth-of-type(6) {
         background-image: linear-gradient(to right, #1D1279, #E458FC);
       }
+
+      .img-container {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        background-image: url("~@assets/520.png");
+        background-size: cover;
+        font-size: 38px;
+      }
+    }
+
+    .wish-wrapper {
+      background-image: linear-gradient(to right, #ff8fa9 ,#8380ff)!important;
     }
   }
 </style>
@@ -69,6 +82,12 @@
       </div>
       <div class="saying-wrapper">
         这个世界里，虽然没有最美好的相遇，却应该有为了相遇或者重逢，所做的最美好的努力。
+      </div>
+    </div>
+    <div class="list-style wish-wrapper" @click="jumpToWish">
+      <div class="title-wrapper img-container">
+        <van-icon class="icon-wrapper" :name="love" size="54"/>
+        “520”许愿树
       </div>
     </div>
     <div class="list-style" @click="showTips">
@@ -105,6 +124,7 @@
         logo2: require('@assets/stageLogo/2c.png'),
         logo3: require('@assets/stageLogo/3c.png'),
         logo4: require('@assets/stageLogo/4c.png'),
+        love: require('@assets/love.png'),
       }
     },
     methods: {
@@ -132,6 +152,23 @@
             }
             this.enableSet(res.data.data.enable);
           }
+        });
+      },
+      jumpToWish() {
+        api.userController.getUserData().then(res => {
+          if (res && res.data.data) {
+            if (res.data.data.enable === 1) {
+              this.$router.push({
+                path: '/mobile/wish',
+              });
+            } else {
+              this.$notify({type: 'danger', message: '该账户尚未激活，请联系管理员'});
+            }
+            this.enableSet(res.data.data.enable);
+          }
+        });
+        this.$router.push({
+          path: '/mobile/wish'
         });
       },
       showTips() {

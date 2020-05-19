@@ -20,7 +20,7 @@
 <template>
   <div class="ManagementPage">
     <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="info-o">
-      目前男女人数占比为87:60
+      目前男女人数比例为{{male}}-{{female}}
     </van-notice-bar>
     <form action="/">
       <van-search
@@ -75,6 +75,8 @@
         finished: false,
         cardShow: false,
         personalData: {},
+        female: '',
+        male: '',
       }
     },
     activated() {
@@ -105,11 +107,10 @@
         }).then(res => {
           if (res) {
             if (res.data.data && res.data.meta.success) {
-              this.pagingOption.totalNum = res.data.data.totalElements;
-              if (!this.searchValue) {
-                this.pagingOption.badge = res.data.data.totalElements;
-              }
-              res.data.data.content.map(item => {
+              this.pagingOption.totalNum = res.data.data.users.totalElements;
+              this.female = res.data.data.female;
+              this.male = res.data.data.male;
+              res.data.data.users.content.map(item => {
                 this.list.push(item)
               });
               if (this.list.length >= this.pagingOption.totalNum) {

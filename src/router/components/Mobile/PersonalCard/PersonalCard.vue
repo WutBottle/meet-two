@@ -58,6 +58,9 @@
       <span class="label-style">出生日期：</span>{{cardData.bornDate && moment(cardData.bornDate).format("YYYY-MM-DD")}}
     </div>
     <div class="div-wrapper">
+      <span class="label-style">身高：</span>{{cardData.height}}cm
+    </div>
+    <div class="div-wrapper">
       <span class="label-style">手机：</span>{{cardData.phoneNumber || isAdmin ? cardData.phoneNumber : '保密中...'}}
     </div>
     <div class="div-wrapper">
@@ -88,8 +91,16 @@
       </van-button>
     </div>
     <van-button v-if="isDelete" style="margin-top: 30px;" type="danger" size="large" round
+                color="linear-gradient(to right, #42dc84, #02b8e2)"
+                @click="handleReset()">重置密码
+    </van-button>
+    <van-button v-if="isDelete" style="margin-top: 30px;" type="danger" size="large" round
                 color="linear-gradient(to right, #fd3e30, #ff7d36)"
                 @click="handleDelete()">删除
+    </van-button>
+    <van-button v-if="isRemove" style="margin-top: 30px;" type="danger" size="large" round
+                color="linear-gradient(to right, #fd3e30, #ff7d36)"
+                @click="handleRemove()">移除列表
     </van-button>
   </div>
 </template>
@@ -106,6 +117,7 @@
       cardData: Object,
       isAdmin: Boolean,
       isDelete: Boolean,
+      isRemove: Boolean,
     },
     data() {
       return {
@@ -150,6 +162,43 @@
               }
             } else {
               this.$toast.fail('网络错误');
+            }
+          })
+        }).catch(() => {
+        });
+      },
+      handleReset() {
+        this.$dialog.confirm({
+          title: '重置密码',
+          message: '确定重置密码?',
+        }).then(() => {
+          api.userController.resetPassword({
+            userId: this.cardData.userId,
+          }).then(res => {
+            if (res) {
+              this.$emit('handleClosePop');
+              this.$toast.success('已重置');
+            } else {
+              this.$toast.fail(res.data.meta.message);
+            }
+          })
+        }).catch(() => {
+        });
+      },
+      handleRemove() {
+        this.$dialog.confirm({
+          title: '移除',
+          message: '确定将其移除我喜欢的列表?',
+        }).then(() => {
+          api.userController.removeLove({
+            userId: this.cardData.userId,
+            love: true,
+          }).then(res => {
+            if (res) {
+              this.$emit('handleClosePop');
+              this.$toast.success('已移除');
+            } else {
+              this.$toast.fail(res.data.meta.message);
             }
           })
         }).catch(() => {

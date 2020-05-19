@@ -103,7 +103,7 @@
           userId: this.personalData.userId,
           love: index
         }).then(res => {
-          if (res && res.data.meta.success) {
+          if (res) {
             if (index) {
               this.$toast.success('喜欢');
               this.slideDirection = true;
