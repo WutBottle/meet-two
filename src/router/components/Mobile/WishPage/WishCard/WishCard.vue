@@ -7,7 +7,7 @@
     border-radius: 12px;
 
     .text-wrapper {
-      padding-top: 8px;
+      padding-top: 4px;
       font-size: 16px;
       color: #3c3c3c;
       font-weight: bold;
@@ -16,22 +16,36 @@
 </style>
 
 <template>
-  <div class="WishCard">
+  <div class="WishCard" @click="showPersonalData">
     <van-image
             width="100%"
             height="180px"
             fit="contain"
-            src="https://img.yzcdn.cn/vant/cat.jpeg"
+            :src="wishCardData.wishImg || 'https://img.yzcdn.cn/vant/cat.jpeg'"
     />
+    <div class="time">
+      {{moment(wishCardData.startDate).format('YYYY-MM-DD')}}
+    </div>
     <div class="text-wrapper">
-      我的愿望是能有一只喵！！！
+      {{wishCardData.wishText}}
     </div>
   </div>
 </template>
 
 <script>
+  import moment from 'moment';
+
   export default {
-    name: "WishCard"
+    name: "WishCard",
+    props:{
+      wishCardData: Object,
+    },
+    methods: {
+      moment,
+      showPersonalData() {
+        this.$emit('showPersonalData')
+      }
+    }
   }
 </script>
 

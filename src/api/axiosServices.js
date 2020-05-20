@@ -96,6 +96,7 @@ instance.interceptors.response.use(
       return Promise.reject(response);
     } else {
       Vue.prototype.$message.error('服务器错误');
+      return Promise.reject(response);
       // 处理断网的情况
       // eg:请求超时或断网时，更新state的network状态
       // network状态在app.vue中控制着一个全局的断网提示组件的显示隐藏
