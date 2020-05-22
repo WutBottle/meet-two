@@ -14,6 +14,7 @@
         position: absolute;
         right: 0;
         top: 40%;
+        z-index: 500;
       }
 
       .water-wrapper {
@@ -32,18 +33,18 @@
         .match-wrapper {
           position: absolute;
           left: 50%;
-          top: 2%;
-          margin-left: -85px;
+          top: 50%;
+          margin-left: -60px;
           z-index: 450;
-          animation: mylogo 0.3s linear 0s infinite alternate;
+          animation: mylogo 0.6s linear 0s infinite alternate;
         }
 
         @keyframes mylogo {
           from {
-            left: 48%;
+            left: 45%;
           }
           to {
-            left: 52%;
+            left: 55%;
           }
         }
       }
@@ -90,7 +91,7 @@
         <van-icon class="water-wrapper" v-show="showWater" :name="water" size="160"/>
       </transition>
       <div class="card-wrapper">
-        <van-icon class="match-wrapper" v-show="!(isMatch && Object.keys(wishCardData.finisher).length)" :name="match" size="170" @click="handleConfirm"/>
+        <van-icon class="match-wrapper" v-show="isMatch && !(wishCardData.finisher && Object.keys(wishCardData.finisher).length)" :name="match" size="120" @click="handleConfirm"/>
         <transition name="van-slide-down">
           <WishCard v-if="Object.keys(wishCardData).length" v-show="cardVisible" :wishCardData="wishCardData" @showPersonalData="showPersonalData"/>
           <van-empty v-else description="种子们正在赶来的路上" />
@@ -199,17 +200,14 @@
               this.isMatch = !!res.data.data.love;
               this.hasSeeding = !!res.data.data.sowing;
               this.wishCardData = res.data.data.wishTree || {};
-              if (res.data.data.wishTree.finisher) {
-                this.personalData = res.data.data.wishTree.finisher;
-                this.personalData.hobby = this.personalData.hobby.split(',');
+              if (res.data.data.wishTree && res.data.data.wishTree.wisher) {
+                this.personalData = res.data.data.wishTree.wisher;
+                this.personalData.hobby = this.personalData.hobby && this.personalData.hobby.split(',');
               }
             }else {
               this.$notify({type: 'danger', message: '获取数据错误'});
             }
             resolve();
-          }).catch(err => {
-            reject(err);
-            this.$notify({type: 'danger', message: '获取数据错误'});
           })
         })
       },
@@ -217,13 +215,17 @@
         this.$router.push({path: '/mobile/stage'})
       },
       showAnother() {
-        if (Object.keys(this.wishCardData.finisher).length) {
-          this.$toast('你们的愿望还未完成哦！');
+        if (Object.keys(this.wishCardData).length) {
+          if (!(this.wishCardData.finisher && Object.keys(this.wishCardData.finisher).length)) {
+            this.cardVisible = false;
+            this.getWishTree().then(() => {
+              this.cardVisible = true;
+            });
+          } else {
+            this.$toast('你们的愿望还未完成哦！');
+          }
         } else {
-          this.cardVisible = false;
-          this.getWishTree().then(() => {
-            this.cardVisible = true;
-          });
+          this.$toast('暂无数据！');
         }
       },
       handleWater() {
@@ -241,6 +243,8 @@
             this.$notify({type: 'danger', message: res.data.meta.message});
           }
           this.showWater = false;
+        }).catch(() => {
+          this.showWater = false;
         })
       },
       showSeeding() {
@@ -253,7 +257,7 @@
             lrz(file).then((rst) => {
               // 处理成功会执行
               const formData = new FormData();
-              let tempFileList = [base64ToFile(rst.base64, 'identify.' + rst.origin.name.split('.')[1])];
+              let tempFileList = [base64ToFile(rst.base64, 'wish.' + rst.origin.name.split('.')[1])];
               tempFileList.forEach((file) => {
                 formData.append('multipartFiles', file);
               });
@@ -307,7 +311,7 @@
           });
       },
       showPersonalData() {
-        if (Object.keys(this.wishCardData.finisher).length) {
+        if (this.wishCardData.finisher && Object.keys(this.wishCardData.finisher).length) {
           this.cardShow = true;
         }
       },
