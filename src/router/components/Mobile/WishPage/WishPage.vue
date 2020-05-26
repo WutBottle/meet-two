@@ -28,7 +28,6 @@
       .card-wrapper {
         padding: 20px 40px;
         position: relative;
-        position: relative;
 
         .match-wrapper {
           position: absolute;
@@ -73,6 +72,18 @@
 
     .add-wrapper {
       padding: 60px 50px 30px 50px;
+    }
+
+    .rate-wrapper {
+      padding: 20px 30px;
+      text-align: center;
+
+      .words-wrapper {
+        padding-bottom: 12px;
+        text-align: left;
+        font-size: 16px;
+      }
+
     }
   }
 </style>
@@ -149,6 +160,46 @@
     </van-popup>
     <van-action-sheet v-model="cardShow" title="对方信息">
       <PersonalCard :cardData="personalData" @handleClosePop="handleClosePop"/>
+      <div class="rate-wrapper">
+        <div v-if="hasFinished">
+          <div class="words-wrapper">
+            <van-progress style="margin-bottom: 12px" :pivot-text="this.wishCardData.finishScore" color="#f2826a" :percentage="this.wishCardData.finishScore / 5 * 100" />
+            对方寄语：{{this.wishCardData.loveStory}}
+          </div>
+          <van-button round color="linear-gradient(to right, #f49151, #f84e4e)"
+                      size="large"
+          >
+            已完成彼此愿望
+          </van-button>
+        </div>
+        <div v-else>
+          <div v-if="hasRated">
+            <van-button round color="linear-gradient(to right, #56ee74, #65d11b)"
+                        size="large"
+            >
+              等待对方评价
+            </van-button>
+          </div>
+          <div v-else>
+            <van-rate v-model="rateValue" icon="like" void-icon="like-o" allow-half color="#ee0a24"/>
+            <van-field
+                    v-model="wishMessage"
+                    rows="3"
+                    autosize
+                    label="寄语:"
+                    type="textarea"
+                    maxlength="100"
+                    placeholder="请输入寄语"
+                    show-word-limit
+            />
+            <van-button round color="linear-gradient(to right, #4bb0ff, #6149f6)"
+                        size="large" @click="handleFinish"
+            >
+              愿望达成
+            </van-button>
+          </div>
+        </div>
+      </div>
     </van-action-sheet>
   </div>
 </template>
@@ -186,6 +237,11 @@
         cardShow: false,
         hasSeeding: false,
         personalData: {},
+        rateValue: 0, // 评分
+        wishMessage: '', // 愿望树寄语
+        hasRated: false, // 判断是否评价
+        hasFinished: false, // 判断是否完成
+
       }
     },
     mounted() {
@@ -203,6 +259,12 @@
               if (res.data.data.wishTree && res.data.data.wishTree.wisher) {
                 this.personalData = res.data.data.wishTree.wisher;
                 this.personalData.hobby = this.personalData.hobby && this.personalData.hobby.split(',');
+              }
+              if (res.data.data.wishTree_my) {
+                this.hasRated = !!res.data.data.wishTree_my.finishScore;
+              }
+              if (res.data.data.wishTree && res.data.data.wishTree_my) {
+                this.hasFinished = res.data.data.wishTree.state && res.data.data.wishTree_my.state;
               }
             }else {
               this.$notify({type: 'danger', message: '获取数据错误'});
@@ -339,6 +401,30 @@
         }).then(() => {
           // on close
         });
+      },
+      handleFinish() {
+        this.$dialog.confirm({
+          title: '提示',
+          message: '你给对方的评分为：' + this.rateValue + ',确定提交？',
+        })
+          .then(() => {
+            api.wishTreeController.finishWishTree({
+              finishScore: this.rateValue,
+              loveStory: this.wishMessage,
+            }).then(res => {
+              if (res.data.data && res.data.meta.success) {
+                this.$toast.success(res.data.data);
+                this.cardShow = false;
+                this.getWishTree();
+              }else {
+                this.$toast.fail(res.data.meta.message);
+                this.cardShow = false;
+              }
+            })
+          })
+          .catch(() => {
+            // on cancel
+          });
       }
     }
   }

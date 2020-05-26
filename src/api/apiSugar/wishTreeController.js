@@ -22,6 +22,9 @@ const wishTreeController = {
   deleteWishTree(params) {
     return axios.post(`${baseUrl.wishTreeController}/deleteWishTree`, params);
   },
+  finishWishTree(params) {
+    return axios.post(`${baseUrl.wishTreeController}/finishWishTree`, params);
+  },
 };
 
 export default wishTreeController;
