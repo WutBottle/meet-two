@@ -25,6 +25,7 @@ const MTestPage = r => require.ensure([], () => r(require('@components/Mobile/Te
 const MEvaluatePage = r => require.ensure([], () => r(require('@components/Mobile/EvaluatePage/EvaluatePage')));
 const MLikeList = r => require.ensure([], () => r(require('@components/Mobile/EvaluatePage/LikeList/LikeList')));
 const MWishPage = r => require.ensure([], () => r(require('@components/Mobile/WishPage/WishPage')));
+const MResultPage = r => require.ensure([], () => r(require('@components/Mobile/ResultPage/ResultPage')));
 
 const Page404 = r => require.ensure([], () => r(require('@components/Page404/Page404')));
 
@@ -88,6 +89,10 @@ export default new Router({
         path: 'wish',
         name: 'MWishPage',
         component: MWishPage,
+      }, {
+        path: 'result',
+        name: 'MResultPage',
+        component: MResultPage,
       }],
     },
     {

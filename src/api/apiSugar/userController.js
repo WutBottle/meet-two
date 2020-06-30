@@ -52,7 +52,10 @@ const userController = {
   },
   resetPassword(params) {
     return axios.post(`${baseUrl.userController}/resetPassword`, params);
-  }
+  },
+  getMatch(params) {
+    return axios.post(`${baseUrl.userController}/getMatch`, params);
+  },
 };
 
 export default userController;

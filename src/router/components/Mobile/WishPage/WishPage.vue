@@ -163,7 +163,7 @@
       <div class="rate-wrapper">
         <div v-if="hasFinished">
           <div class="words-wrapper">
-            <van-progress style="margin-bottom: 12px" :pivot-text="this.wishCardData.finishScore" color="#f2826a" :percentage="this.wishCardData.finishScore / 5 * 100" />
+            <van-progress style="margin-bottom: 12px" :pivot-text="String(this.wishCardData.finishScore)" color="#f2826a" :percentage="this.wishCardData.finishScore / 5 * 100" />
             对方寄语：{{this.wishCardData.loveStory}}
           </div>
           <van-button round color="linear-gradient(to right, #f49151, #f84e4e)"

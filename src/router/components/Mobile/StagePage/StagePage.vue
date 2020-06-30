@@ -53,7 +53,7 @@
     }
 
     .wish-wrapper {
-      background-image: linear-gradient(to right, #ff8fa9 ,#8380ff)!important;
+      background-image: linear-gradient(to right, #ff8fa9, #8380ff) !important;
     }
   }
 </style>
@@ -87,10 +87,10 @@
     <div class="list-style wish-wrapper" @click="jumpToWish">
       <div class="title-wrapper img-container">
         <van-icon class="icon-wrapper" :name="love" size="54"/>
-        “520”许愿树
+        许愿树
       </div>
     </div>
-    <div class="list-style" @click="showTips">
+    <div class="list-style" @click="jumpToResult">
       <div class="title-wrapper">
         <van-icon class="icon-wrapper" :name="logo3" size="46"/>
         匹配结果
@@ -180,6 +180,9 @@
       },
       onClickLeft() {
         this.$router.push({path: '/mobile/login'})
+      },
+      jumpToResult() {
+        this.$router.push({path: '/mobile/result'})
       }
     }
   }
