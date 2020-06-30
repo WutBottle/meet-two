@@ -99,7 +99,7 @@
         我恨自己别无选择，只能冒险爱你。
       </div>
     </div>
-    <div class="list-style" @click="showTips">
+    <div class="list-style" @click="jumpToTask">
       <div class="title-wrapper">
         <van-icon class="icon-wrapper" :name="logo4" size="46"/>
         打卡任务
@@ -112,7 +112,7 @@
 </template>
 
 <script>
-  import {ENABLE, ANSWER} from '@store/mutation-types';
+  import {ANSWER} from '@store/mutation-types';
   import {mapMutations} from 'vuex';
   import api from '@api/apiSugar';
 
@@ -171,12 +171,10 @@
           path: '/mobile/wish'
         });
       },
-      showTips() {
-        if (localStorage.getItem(ENABLE) === '1') {
-          this.$notify({type: 'warning', message: '该阶段暂未开放，敬请期待'});
-        } else {
-          this.$notify({type: 'danger', message: '该账户尚未激活，请联系管理员'});
-        }
+      jumpToTask() {
+        this.$router.push({
+          path: '/mobile/task'
+        });
       },
       onClickLeft() {
         this.$router.push({path: '/mobile/login'})

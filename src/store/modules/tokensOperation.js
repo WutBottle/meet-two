@@ -12,6 +12,7 @@ const state = {
   environment: localStorage.getItem(ENVIRONMENT) || '',
   enable: localStorage.getItem(ENABLE) || '',
   answer: localStorage.getItem(ANSWER) || '',
+  username: '',
 };
 
 const mutations = {
@@ -26,6 +27,7 @@ const mutations = {
     state.role = user.role;
     state.enable = user.enable;
     state.answer = user.answer;
+    state.username = user.username;
   },
   authError(state) {
     state.status = 'error';

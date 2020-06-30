@@ -59,9 +59,9 @@
             </van-button>
           </div>
         </van-form>
-        <blockquote class="tips">
-          <p>Tips: 本次活动涉及的个人信息会严格保密，如有问题请加qq群：1071506342，联系群管理员！</p>
-        </blockquote>
+<!--        <blockquote class="tips">-->
+<!--          <p>Tips: 本次活动涉及的个人信息会严格保密，如有问题请加qq群：1071506342，联系群管理员！</p>-->
+<!--        </blockquote>-->
       </van-tab>
       <van-tab title="注册" name="register">
         <van-form @submit="onSubmitRegister">
@@ -193,7 +193,8 @@
               if (res.data.data.role === '管理员') {
                 this.$router.push({path: '/mobile/admin'})
               }else {
-                this.$router.push({path: '/mobile/stage'})
+                this.$router.push({path: '/mobile/task'});
+                // this.$router.push({path: '/mobile/stage'})
               }
             } else {
               this.$notify({type: 'warning', message: res.data.meta.message});
