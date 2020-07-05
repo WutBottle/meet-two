@@ -27,6 +27,8 @@ const MLikeList = r => require.ensure([], () => r(require('@components/Mobile/Ev
 const MWishPage = r => require.ensure([], () => r(require('@components/Mobile/WishPage/WishPage')));
 const MResultPage = r => require.ensure([], () => r(require('@components/Mobile/ResultPage/ResultPage')));
 const MTaskPage = r => require.ensure([], () => r(require('@components/Mobile/TaskPage/TaskPage')));
+const MDynamicPage = r => require.ensure([], () => r(require('@components/Mobile/TaskPage/DynamicPage/DynamicPage')));
+const MRedeemPage = r => require.ensure([], () => r(require('@components/Mobile/TaskPage/RedeemPage/RedeemPage')));
 
 
 const Page404 = r => require.ensure([], () => r(require('@components/Page404/Page404')));
@@ -99,6 +101,14 @@ export default new Router({
         path: 'task',
         name: 'MTaskPage',
         component: MTaskPage,
+      }, {
+        path: 'dynamic',
+        name: 'MDynamicPage',
+        component: MDynamicPage,
+      }, {
+        path: 'redeem',
+        name: 'MRedeemPage',
+        component: MRedeemPage,
       }],
     },
     {

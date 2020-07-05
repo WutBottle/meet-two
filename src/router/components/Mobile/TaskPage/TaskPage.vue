@@ -78,12 +78,14 @@
     <van-nav-bar
             title="任务列表"
             left-text="返回"
+            right-text="动态"
             left-arrow
+            @click-right="() => this.$router.push({path: '/mobile/dynamic'})"
             @click-left="() => this.$router.push({path: '/mobile/login'})"
     />
     <div class="score-wrapper">
       <div class="score">
-        <div style="display: flex;align-items: center;justify-content: center">
+        <div style="display: flex;align-items: center;justify-content: center" @click="() => this.$router.push({path: '/mobile/redeem'})">
           {{currentScore}}
           <van-icon name="star" style="font-size: 26px"/>
         </div>

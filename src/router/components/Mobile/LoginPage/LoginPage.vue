@@ -132,15 +132,18 @@
         </blockquote>
       </van-tab>
     </van-tabs>
-    <van-grid class="logo-wrapper" :border="false" :column-num="3">
+    <van-grid class="logo-wrapper" :border="false" :column-num="1">
+<!--      <van-grid-item>-->
+<!--        <van-image :src="wnlo" />-->
+<!--      </van-grid-item>-->
+<!--      <van-grid-item>-->
+<!--        <van-image :src="fl" />-->
+<!--      </van-grid-item>-->
+<!--      <van-grid-item>-->
+<!--        <van-image :src="hls" />-->
+<!--      </van-grid-item>-->
       <van-grid-item>
-        <van-image :src="wnlo" />
-      </van-grid-item>
-      <van-grid-item>
-        <van-image :src="fl" />
-      </van-grid-item>
-      <van-grid-item>
-        <van-image :src="hls" />
+        <van-image :src="jy" />
       </van-grid-item>
     </van-grid>
   </div>
@@ -171,6 +174,7 @@
         wnlo: require('@assets/wnlo.png'),
         hls: require('@assets/hls.png'),
         fl: require('@assets/fl.png'),
+        jy: require('@assets/jiayou.jpg'),
         imgFileList: [],
         imgLoading: false,
         fileName: '',
