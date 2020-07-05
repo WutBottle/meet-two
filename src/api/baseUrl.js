@@ -13,6 +13,7 @@ const distributeUrl = {
   wishTreeController: serverBaseUrl + 'wishTree',
   taskController: serverBaseUrl + 'task',
   messageController: serverBaseUrl + 'message',
+  redeemController: serverBaseUrl + 'redeem',
 };
 
 export default distributeUrl;

@@ -1,5 +1,5 @@
 /*
- * 任务接口管理
+ * 留言接口管理
  * By ZP
  */
 
@@ -8,9 +8,13 @@ import axios from '../axiosServices';
 import baseUrl from '../baseUrl'; // 导入接口域名列表
 
 const messageController = {
-  // 获取任务接口
-  getTaskListByUserId(params) {
-    return axios.post(`${baseUrl.taskController}/getTaskListByUserId`, params);
+  // 获取留言接口
+  getMessageWallList(params) {
+    return axios.post(`${baseUrl.messageController}/getMessageWallList`, params);
+  },
+  // 添加留言接口
+  addMessageWall(params) {
+    return axios.post(`${baseUrl.messageController}/addMessageWall`, params);
   },
 };
 

@@ -6,6 +6,7 @@ import userController from './userController';
 import wishTreeController from './wishTreeController';
 import taskController from "./taskController";
 import messageController from "./messageController";
+import redeemController from "./redeemController";
 
 // 导出接口
 export default {
@@ -14,4 +15,5 @@ export default {
   wishTreeController: wishTreeController, // 许愿树管理
   taskController: taskController, // 任务打卡管理
   messageController: messageController, // 留言管理
+  redeemController: redeemController, // 积分兑换管理
 }
