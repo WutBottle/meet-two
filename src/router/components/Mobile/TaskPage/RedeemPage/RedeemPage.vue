@@ -19,6 +19,7 @@
         <van-card
                 :key="index"
                 :tag="String(item.needScore)"
+                :desc="item.finishDate"
                 :title="item.giftDescription"
                 thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
         >
@@ -27,7 +28,7 @@
             <van-tag v-else plain type="success">已兑换</van-tag>
           </template>
           <template #footer>
-            <van-button round size="small" color="linear-gradient(to right, #fc746f, #f3cb4a)">兑换</van-button>
+            <van-button round size="small" color="linear-gradient(to right, #fc746f, #f3cb4a)" @click="handleExchange(item.redeemId)">兑换</van-button>
           </template>
         </van-card>
       </template>
@@ -36,28 +37,47 @@
 </template>
 
 <script>
+  import api from '@api/apiSugar';
+  import moment from 'moment';
   export default {
     name: "RedeemPage",
     data() {
       return {
-        list: [{
-          redeemId: '',
-          needScore: 1001,
-          giftImage: null,
-          giftDescription: '云南之旅',
-          createDate: 1593874398000,
-          done: null,
-          finishDate: null,
-        }, {
-          redeemId: '',
-          needScore: 2001,
-          giftImage: null,
-          giftDescription: '带你去爬六峰山',
-          createDate: 1593874398000,
-          done: true,
-          finishDate: null,
-        }]
-
+        list: []
+      }
+    },
+    mounted() {
+      this.getRedeemList();
+    },
+    methods: {
+      getRedeemList() {
+        api.redeemController.getRedeemList().then(res => {
+          if(res.data && res.data.meta.success) {
+            this.list = res.data.data.map(item => {
+              return {
+                done: item.done,
+                finishDate: item.finishDate ? moment(item.finishDate).format('YYYY-MM-DD HH:mm:ss') : '暂无兑换时间',
+                giftDescription: item.giftDescription,
+                giftImage: item.giftImage || 'https://img.yzcdn.cn/vant/ipad.jpeg',
+                needScore: String(item.needScore),
+                redeemId: item.redeemId,
+              }
+            })
+          }else {
+            this.$toast.fail(res.data.meta.message);id
+          }
+        })
+      },
+      handleExchange(id) {
+        this.$dialog.confirm({
+          title: '确认兑换？',
+        })
+          .then(() => {
+            // on confirm
+          })
+          .catch(() => {
+            // on cancel
+          });
       }
     }
   }

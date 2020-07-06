@@ -65,7 +65,7 @@
               />
             </div>
             <div class="right">
-              <div class="name">{{item.username}}</div>
+              <div class="name">{{item.nickname}}</div>
               <div class="date">{{item.createDate}}</div>
             </div>
           </div>
@@ -123,27 +123,17 @@
 </template>
 
 <script>
+  import api from '@api/apiSugar';
   import moment from 'moment';
   import lrz from 'lrz';
   import base64ToFile from '@common/js/base64ToFile';
+  import baseUrl from '@api/baseUrl';
 
   export default {
     name: "DynamicPage",
     data() {
       return {
-        list: [{
-          message: '今天真的很开心今天真的很开心今天真的很开心今天真的很开心!',
-          messageImage: null,
-          createDate: moment(1593875042000).format('YYYY-MM-DD HH:mm:ss'),
-          username: 'zhang',
-          userImage: 'https://img.yzcdn.cn/vant/cat.jpeg',
-        }, {
-          message: '今天真的很开心今天真的很开心今天真的很开心今天真的很开心!',
-          messageImage: 'https://img.yzcdn.cn/vant/cat.jpeg',
-          createDate: moment(1593875042000).format('YYYY-MM-DD HH:mm:ss'),
-          username: 'zhang',
-          userImage: 'https://img.yzcdn.cn/vant/cat.jpeg',
-        }],
+        list: [],
         showAdd: false,
         message: '',
         imgFileList: [],
@@ -152,12 +142,51 @@
         fileName: '',
       }
     },
+    mounted() {
+      this.getMessageWallList();
+    },
     methods: {
+      getMessageWallList() {
+        api.messageWallController.getMessageWallList().then(res => {
+            if (res.data.data && res.data.meta.success) {
+            this.list = res.data.data.map(item => {
+              return {
+                id: item.id,
+                createDate: moment(item.createDate).format('YYYY-MM-DD HH:mm:ss'),
+                message: item.message,
+                nickname: item.user.nickname,
+                messageImage: item.messageImage,
+                userImage: item.user.userImg || 'https://img.yzcdn.cn/vant/cat.jpeg'
+              }
+            })
+          } else {
+            this.$toast.fail(res.data.meta.message);
+          }
+        })
+      },
       handleAdd() {
         this.showAdd = true;
       },
       onSubmit() {
         this.isSubmit = true;
+        api.messageWallController.addMessageWall({
+          message: this.message,
+          messageImage: this.fileName,
+        }).then(res => {
+          if(res.data && res.data.meta.success) {
+            this.getMessageWallList();
+            this.isSubmit = false;
+            this.showAdd = false;
+            this.$toast.success(res.data.meta.message);
+            Object.assign(this, {
+              message: '',
+              fileName: '',
+              imgFileList: [],
+            })
+          }else {
+            this.$toast.fail(res.data.meta.message);
+          }
+        })
       },
       beforeRead(file) {
         return new Promise((resolve, reject) => {
